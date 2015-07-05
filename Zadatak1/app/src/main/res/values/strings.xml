@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Zadatak1</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="resize_grow">Grow</string>
+    <string name="resize_shrink">Shrink</string>
+</resources>
