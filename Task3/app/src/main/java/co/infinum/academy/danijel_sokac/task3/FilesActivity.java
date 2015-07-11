@@ -66,6 +66,7 @@ public class FilesActivity extends AppCompatActivity {
                 Intent intent = new Intent(FilesActivity.this, EditorActivity.class);
                 intent.putExtra("FILE_PATH", allFiles[position].getAbsolutePath());
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -75,6 +76,7 @@ public class FilesActivity extends AppCompatActivity {
         Intent intent = new Intent(FilesActivity.this, EditorActivity.class);
         intent.putExtra("FILE_PATH", "");
         startActivity(intent);
+        finish();
     }
 
 

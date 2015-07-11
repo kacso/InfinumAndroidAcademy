@@ -109,10 +109,10 @@ public class EditorActivity extends AppCompatActivity {
         try {
             FileManager fileManager = new FileManager();
             fileManager.saveFile(titleEditText.getText().toString(), contentEditText.getText().toString());
-            Toast.makeText(EditorActivity.this, "Saved.", Toast.LENGTH_LONG);
+            Toast.makeText(EditorActivity.this, "Saved.", Toast.LENGTH_LONG).show();
             saveItem.setEnabled(false);
         } catch (Exception e) {
-            Toast.makeText(EditorActivity.this, "Error while saving file.", Toast.LENGTH_LONG);
+            Toast.makeText(EditorActivity.this, "Error while saving file.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -123,7 +123,7 @@ public class EditorActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(EditorActivity.this, FilesActivity.class);
             startActivity(intent);
-            super.onBackPressed();
+//            super.onBackPressed();
         }
     }
 

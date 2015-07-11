@@ -12,10 +12,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:hint="@string/title_hint"/>
-    <EditText
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/content"
-        android:hint="@string/content_hint"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/content"
+            android:hint="@string/content_hint"/>
+    </ScrollView>
 
 </LinearLayout>
