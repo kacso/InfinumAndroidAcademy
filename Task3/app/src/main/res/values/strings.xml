@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Notepad</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="no_files">You don\'t have any documents, please create some</string>
+    <string name="title_activity_editor">Edit document</string>
+    <string name="save">save</string>
+    <string name="title_hint">Document title</string>
+    <string name="content_hint">Insert content here</string>
+</resources>
