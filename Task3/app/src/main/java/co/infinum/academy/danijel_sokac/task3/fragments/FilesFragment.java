@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import co.infinum.academy.danijel_sokac.task3.FileManager;
+import co.infinum.academy.danijel_sokac.task3.Manager.FileManager;
 import co.infinum.academy.danijel_sokac.task3.R;
 import co.infinum.academy.danijel_sokac.task3.interfaces.FileListener;
 

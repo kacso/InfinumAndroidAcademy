@@ -1,26 +1,23 @@
 package co.infinum.academy.danijel_sokac.task3.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import co.infinum.academy.danijel_sokac.task3.FileManager;
+import co.infinum.academy.danijel_sokac.task3.Enums.ColorEnum;
+import co.infinum.academy.danijel_sokac.task3.Manager.FileManager;
 import co.infinum.academy.danijel_sokac.task3.R;
 import co.infinum.academy.danijel_sokac.task3.activites.EditorActivity;
+import co.infinum.academy.danijel_sokac.task3.activites.SettingsActivity;
 
 /**
  * Created by Danijel on 11.7.2015..
@@ -64,6 +61,12 @@ public class EditorFragment extends Fragment {
 
         titleEditText = (EditText)getActivity().findViewById(R.id.title);
         contentEditText = (EditText) getActivity().findViewById(R.id.content);
+
+        String color = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(SettingsActivity.COLOR, "");
+        if (!color.isEmpty()) {
+            titleEditText.setTextColor(ColorEnum.valueOf(color).color);
+            contentEditText.setTextColor(ColorEnum.valueOf(color).color);
+        }
 
         if (!filePath.equals("")) {
             //Open file and display content

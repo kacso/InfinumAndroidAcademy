@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Bloc</string>
+
+    <string name="action_settings">Ajustes</string>
+    <string name="no_files">Usted no tiene ningún documento, por favor crear una cierta</string>
+    <string name="title_activity_editor">Editar documento</string>
+    <string name="save">guardar</string>
+    <string name="title_hint">Titulo del documento</string>
+    <string name="content_hint">Insertar contenido aquí</string>
+    <string name="title_activity_settings">Ajustes</string>
+
+    <string name="language_prompt">Escoge un pais</string>
+    <string name="color_prompt">Elija un color de texto</string>
+    <string name="settings_color">Color</string>
+    <string name="settings_language">Idioma</string>
+</resources>

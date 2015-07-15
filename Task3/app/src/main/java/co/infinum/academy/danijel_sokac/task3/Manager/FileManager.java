@@ -1,4 +1,4 @@
-package co.infinum.academy.danijel_sokac.task3;
+package co.infinum.academy.danijel_sokac.task3.Manager;
 
 import android.content.Context;
 import android.os.Environment;

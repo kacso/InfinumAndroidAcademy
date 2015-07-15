@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Bilješke</string>
+
+    <string name="action_settings">Postavke</string>
+    <string name="no_files">Ne postoje nikakvi dokumenti, molim kreirajte neki</string>
+    <string name="title_activity_editor">Izmjeni dokument</string>
+    <string name="save">spremi</string>
+    <string name="title_hint">Ime dokumenta</string>
+    <string name="content_hint">Umetni sadržaj</string>
+    <string name="title_activity_settings">Postavke</string>
+
+    <string name="language_prompt">Odaberite jezik</string>
+    <string name="color_prompt">Odaberite boju</string>
+    <string name="settings_color">Boja</string>
+    <string name="settings_language">Jezik</string>
+</resources>

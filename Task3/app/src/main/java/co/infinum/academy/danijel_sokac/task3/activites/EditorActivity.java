@@ -6,17 +6,21 @@ package co.infinum.academy.danijel_sokac.task3.activites;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import co.infinum.academy.danijel_sokac.task3.FileManager;
+import java.util.Locale;
+
+import co.infinum.academy.danijel_sokac.task3.Enums.LanguageCodeEnum;
+import co.infinum.academy.danijel_sokac.task3.Manager.FileManager;
 import co.infinum.academy.danijel_sokac.task3.R;
 import co.infinum.academy.danijel_sokac.task3.fragments.EditorFragment;
 import co.infinum.academy.danijel_sokac.task3.fragments.FilesFragment;
@@ -33,15 +37,17 @@ public class EditorActivity extends AppCompatActivity implements FileListener {
         setContentView(R.layout.activity_editor_fragments);
 
 
+        Locale locale = getResources().getConfiguration().locale;
+        String langCode = locale.getDisplayLanguage().toString();
+        String savedLangCode = PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.LANGUAGE, "");
+        if (!savedLangCode.isEmpty() && !savedLangCode.toLowerCase().equals(langCode.toLowerCase())) {
+            setLanguage(savedLangCode);
+
+        }
+
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        int rotation = getWindowManager().getDefaultDisplay().getRotation();
-//        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270)
-//            //landscape
-//            ft.replace(R.id.files, new FilesFragment());
-//        else
-            //portrait
-            ft.replace(R.id.files, new FilesFragment());
-//        ft.replace(R.id.files, new FilesFragment());
+        ft.replace(R.id.files, new FilesFragment());
         ft.commit();
     }
 
@@ -90,12 +96,7 @@ public class EditorActivity extends AppCompatActivity implements FileListener {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-//        int rotation = getWindowManager().getDefaultDisplay().getRotation();
-//        if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270)
-//            //portrait
-//            ft.replace(R.id.container, editorFragment);
-//        else
-            ft.replace(R.id.editor, editorFragment);
+        ft.replace(R.id.editor, editorFragment);
 
         ft.addToBackStack(null);
         ft.commit();
@@ -111,6 +112,18 @@ public class EditorActivity extends AppCompatActivity implements FileListener {
         } catch (Exception e) {
             Toast.makeText(this, "Error while saving file.", Toast.LENGTH_LONG).show();
         }
+    }
+    public void setLanguage(String lang) {
+        Locale myLocale = new Locale(LanguageCodeEnum.Language.valueOf(lang).code);
+        Locale.setDefault(myLocale);
+
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString(SettingsActivity.LANGUAGE, lang).apply();
     }
 }
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="language_array">
-        <item value="EN">English</item>
-        <item value="HR">Hrvatski</item>
-        <item value="DE">Duitse</item>
-        <item value="IT">Italiano</item>
-        <item value="ES">Español</item>
+        <item name="EN">English</item>
+        <item name="HR">Hrvatski</item>
+        <item name="DE">Deutsch</item>
+        <item name="IT">Italiano</item>
+        <item name="ES">Espaňol</item>
     </string-array>
 
 </resources>
