@@ -13,4 +13,9 @@
     <string name="color_prompt">Odaberite boju</string>
     <string name="settings_color">Boja</string>
     <string name="settings_language">Jezik</string>
+
+    <string name="black">Crna</string>
+    <string name="red">Crvena</string>
+    <string name="blue">Plava</string>
+    <string name="green">Zelena</string>
 </resources>

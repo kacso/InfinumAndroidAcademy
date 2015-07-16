@@ -1,6 +1,8 @@
 package co.infinum.academy.danijel_sokac.task3.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +20,7 @@ import co.infinum.academy.danijel_sokac.task3.Manager.FileManager;
 import co.infinum.academy.danijel_sokac.task3.R;
 import co.infinum.academy.danijel_sokac.task3.activites.EditorActivity;
 import co.infinum.academy.danijel_sokac.task3.activites.SettingsActivity;
+import co.infinum.academy.danijel_sokac.task3.interfaces.AlertAction;
 
 /**
  * Created by Danijel on 11.7.2015..
@@ -91,13 +94,12 @@ public class EditorFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                if (count != 0 && !saveButton.isShown())
+                    saveButton.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!saveButton.isShown())
-                    saveButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -108,12 +110,12 @@ public class EditorFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count != 0 && !saveButton.isShown())
+                    saveButton.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!saveButton.isShown())
-                    saveButton.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -130,35 +132,31 @@ public class EditorFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (saveButton.isEnabled()) {
-//            alertChangesUnsaved();
-//        } else {
-//            Intent intent = new Intent(getActivity(), FilesActivity.class);
-//            startActivity(intent);
-////            super.onBackPressed();
-//        }
-//    }
+    public boolean allowBackPressed() {
+        return !saveButton.isShown();
+    }
 
-//    private void alertChangesUnsaved() {
-//        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-//        alertDialog.setTitle("Document has been modified");
-//        alertDialog.setMessage("Do you realy want to exit?");
-//        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Yes",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        Intent intent = new Intent(getActivity(), FilesActivity.class);
-//                        startActivity(intent);
-//                    }
-//                });
-//        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "No",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//        alertDialog.show();
-//    }
+    public void destroyFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+    public void alertChangesUnsaved(final AlertAction action) {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setTitle("Document has been modified");
+        alertDialog.setMessage("Do you realy want to exit?");
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        action.action();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
 }

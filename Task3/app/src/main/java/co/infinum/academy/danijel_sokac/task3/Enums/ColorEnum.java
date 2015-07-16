@@ -22,4 +22,14 @@ public enum ColorEnum {
             default: return 0;
         }
     }
+
+    public static String colorAtIndex(int i) {
+        switch (i) {
+            case 0: return "Black";
+            case 1: return "Red";
+            case 2: return "Blue";
+            case 3: return "Green";
+            default: return "Black";
+        }
+    }
 }

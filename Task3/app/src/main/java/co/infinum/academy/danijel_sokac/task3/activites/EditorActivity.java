@@ -4,6 +4,7 @@ package co.infinum.academy.danijel_sokac.task3.activites;
  * Created by Danijel on 11.7.2015..
  */
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import java.util.Locale;
 
 import co.infinum.academy.danijel_sokac.task3.Enums.LanguageCodeEnum;
+import co.infinum.academy.danijel_sokac.task3.Implementation.DestroyFragmentAction;
+import co.infinum.academy.danijel_sokac.task3.Implementation.OpenFileAction;
 import co.infinum.academy.danijel_sokac.task3.Manager.FileManager;
 import co.infinum.academy.danijel_sokac.task3.R;
 import co.infinum.academy.danijel_sokac.task3.fragments.EditorFragment;
@@ -79,12 +82,24 @@ public class EditorActivity extends AppCompatActivity implements FileListener {
 
     @Override
     public void onOpenFileClicked(String path) {
-        createEditorFragment(path);
+        EditorFragment editor = (EditorFragment)getSupportFragmentManager().findFragmentById(R.id.editor);
+
+        if (editor != null && !editor.allowBackPressed()) {
+            editor.alertChangesUnsaved(new OpenFileAction(this,getSupportFragmentManager(), new EditorFragment(), path));
+        } else {
+            createEditorFragment(path);
+        }
     }
 
     @Override
     public void onNewFileClicked() {
-        createEditorFragment("");
+        EditorFragment editor = (EditorFragment)getSupportFragmentManager().findFragmentById(R.id.editor);
+
+        if (editor != null && !editor.allowBackPressed()) {
+            editor.alertChangesUnsaved(new OpenFileAction(this, getSupportFragmentManager(), new EditorFragment(), ""));
+        } else {
+            createEditorFragment("");
+        }
     }
 
     private void createEditorFragment(String path) {
@@ -125,5 +140,17 @@ public class EditorActivity extends AppCompatActivity implements FileListener {
         PreferenceManager.getDefaultSharedPreferences(this).edit()
                 .putString(SettingsActivity.LANGUAGE, lang).apply();
     }
+
+    @Override
+    public void onBackPressed() {
+        EditorFragment editor = (EditorFragment)getSupportFragmentManager().findFragmentById(R.id.editor);
+
+        if (editor != null && !editor.allowBackPressed()) {
+            editor.alertChangesUnsaved(new DestroyFragmentAction(this, editor));
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }
 

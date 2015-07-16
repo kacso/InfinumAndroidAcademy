@@ -13,4 +13,9 @@
     <string name="color_prompt">Kies een tekstkleur</string>
     <string name="settings_color">Kleur</string>
     <string name="settings_language">Taal</string>
+
+    <string name="black">Zwart</string>
+    <string name="red">Rood</string>
+    <string name="blue">Blauw</string>
+    <string name="green">Groen</string>
 </resources>

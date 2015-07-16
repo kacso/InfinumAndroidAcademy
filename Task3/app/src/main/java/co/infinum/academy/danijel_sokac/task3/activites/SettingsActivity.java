@@ -54,15 +54,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         } else {
             languageSpinner.setSelection(LanguageCodeEnum.indexOf(savedLangCode.toLowerCase()));
         }
-//        setLanguage("Hrvatski");
+
         languageSpinner.setOnItemSelectedListener(this);
 
         colorSpinner = (Spinner) findViewById(R.id.color);
         String savedColor = PreferenceManager.getDefaultSharedPreferences(this).getString(COLOR, "Black");
-//        if (!savedColor.equals(colorSpinner.getSelectedItem().toString())) {
 
-            colorSpinner.setSelection(ColorEnum.indexOf(savedColor));
-//        }
+        colorSpinner.setSelection(ColorEnum.indexOf(savedColor));
+        colorSpinner.setBackgroundColor(ColorEnum.valueOf(savedColor).color);
         colorSpinner.setOnItemSelectedListener(this);
     }
 
@@ -95,15 +94,21 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             Locale locale = getResources().getConfiguration().locale;
             if (!locale.getDisplayLanguage().toString().equals(lang)) {
                 Toast.makeText(this, lang, Toast.LENGTH_SHORT).show();
-                languageSpinner.setSelection(position);
+//                languageSpinner.setSelection(position);
 
                 setLanguage(lang);
+//                Intent refresh = new Intent(this, SettingsActivity.class);
+//                startActivity(refresh);
+//                finish();
             }
         }
         else if (parent.getId() == R.id.color) {
-            String color = parent.getItemAtPosition(position).toString();
+
+//            String color = parent.getItemAtPosition(position).toString();
+            String color = ColorEnum.colorAtIndex(position);
             PreferenceManager.getDefaultSharedPreferences(this).edit()
                     .putString(COLOR, color).apply();
+            colorSpinner.setBackgroundColor(ColorEnum.valueOf(color).color);
         }
     }
 

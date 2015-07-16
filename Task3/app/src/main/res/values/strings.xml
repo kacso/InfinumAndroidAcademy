@@ -13,4 +13,9 @@
     <string name="color_prompt">Choose a text color</string>
     <string name="settings_color">Color</string>
     <string name="settings_language">Language</string>
+    <string name="black">Black</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+
 </resources>
