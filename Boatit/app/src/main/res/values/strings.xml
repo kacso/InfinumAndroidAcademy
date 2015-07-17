@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Boatit</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login_btn">LOGIN</string>
+    <string name="title_activity_boats">BoatsActivity</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="upboat">UPBOAT</string>
+    <string name="downboat">DOWNBOAT</string>
+</resources>
