@@ -77,9 +77,9 @@ public class LoginActivity extends Activity {
 //            e.printStackTrace();
 //        }
 
-//        final TypedString loginData = new TypedString("{\"email\":\"" + username.getText().toString()
-//                + "\", \"password\": \"" + password.getText().toString() + "\"}");
-        final TypedString loginData = new TypedString("{\n\"email\": \"admin@infinum.co\",\n\"password\": \"infinum1\"\n}");
+        final TypedString loginData = new TypedString("{\"email\":\"" + username.getText().toString()
+                + "\", \"password\": \"" + password.getText().toString() + "\"}");
+//        final TypedString loginData = new TypedString("{\n\"email\": \"admin@infinum.co\",\n\"password\": \"infinum1\"\n}");
         ApiManager.postSERVICE().login(loginData, new retrofit.Callback<LoginResponse>() {
             @Override
             public void success(LoginResponse login, Response response) {
