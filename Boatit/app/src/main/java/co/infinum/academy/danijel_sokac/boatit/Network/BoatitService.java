@@ -20,6 +20,10 @@ public interface BoatitService {
     @POST("/api/v1/users/login")
     void login(@Body TypedString loginData,Callback<LoginResponse> callback);
 
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/users/register")
+    void register(@Body TypedString registerData,Callback<LoginResponse> callback);
+
     @GET("/api/v1/posts")
     void getBoats(@Query("token") String token, @Query("page") int page,
                   @Query("per_page") int perPage ,Callback<AllBoats> callback);
