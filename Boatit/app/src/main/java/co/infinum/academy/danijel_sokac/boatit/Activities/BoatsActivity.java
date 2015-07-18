@@ -53,9 +53,9 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -65,7 +65,7 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                 1, 100, new retrofit.Callback<AllBoats>() {
                     @Override
                     public void success(AllBoats allBoats, Response response) {
-                        Toast.makeText(BoatsActivity.this, "Got responses: " + response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(BoatsActivity.this, "Got responses: " + response, Toast.LENGTH_SHORT).show();
                         boats = allBoats;
                         boatsAdapter = new BoatsAdapter(BoatsActivity.this, allBoats.getBoatList());
                         boatsList.setAdapter(boatsAdapter);

@@ -1,5 +1,7 @@
 package co.infinum.academy.danijel_sokac.boatit.Singletons;
 
+import android.graphics.Bitmap;
+
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 
 /**
@@ -7,6 +9,7 @@ import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
  */
 public class BoatSingleton {
     private Boat boat;
+
     private static BoatSingleton boatSingleton = null;
 
     private BoatSingleton() {
@@ -26,4 +29,5 @@ public class BoatSingleton {
     public void setBoat(Boat boat) {
         this.boat = boat;
     }
+
 }

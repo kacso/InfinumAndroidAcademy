@@ -20,6 +20,9 @@ public class Boat {
     @SerializedName("comments")
     private List<Comment> comments;
 
+    @SerializedName("score")
+    private int score;
+
     public int getId() {
         return id;
     }
@@ -34,5 +37,13 @@ public class Boat {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

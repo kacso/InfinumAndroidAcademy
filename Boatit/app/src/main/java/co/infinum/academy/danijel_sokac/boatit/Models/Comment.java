@@ -17,6 +17,9 @@ public class Comment {
     @SerializedName("created_at")
     private String createAt;
 
+    @SerializedName("author")
+    private Author author;
+
     public String getCreateAt() {
         return createAt;
     }
@@ -27,5 +30,9 @@ public class Comment {
 
     public int getId() {
         return id;
+    }
+
+    public Author getAuthor() {
+        return author;
     }
 }

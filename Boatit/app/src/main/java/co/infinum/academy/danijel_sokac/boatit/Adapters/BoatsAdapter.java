@@ -42,6 +42,9 @@ public class BoatsAdapter extends ArrayAdapter<Boat>{
         List<Comment> comments = getItem(position).getComments();
         if (!comments.isEmpty())
             holder.boatDetails.setText(comments.get(0).getContent());
+        else {
+            holder.boatDetails.setText("");
+        }
         return convertView;
     }
 
