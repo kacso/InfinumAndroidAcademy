@@ -1,13 +1,21 @@
 package co.infinum.academy.danijel_sokac.boatit.Models;
 
 import com.google.gson.annotations.SerializedName;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
+import com.raizlabs.android.dbflow.annotation.ForeignKeyReference;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.io.Serializable;
 import java.util.List;
+
+import co.infinum.academy.danijel_sokac.boatit.Database.BoatitDatabase;
 
 /**
  * Created by Danijel on 13.7.2015..
  */
-public class Boat {
+public class Boat extends BaseModel implements Serializable{
     @SerializedName("id")
     private int id;
 
@@ -46,4 +54,5 @@ public class Boat {
     public void setScore(int score) {
         this.score = score;
     }
+
 }

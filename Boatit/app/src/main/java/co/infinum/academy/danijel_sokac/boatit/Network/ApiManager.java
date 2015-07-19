@@ -3,7 +3,11 @@ package co.infinum.academy.danijel_sokac.boatit.Network;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.raizlabs.android.dbflow.structure.ModelAdapter;
 import com.squareup.okhttp.OkHttpClient;
 
 import co.infinum.academy.danijel_sokac.boatit.Activities.LoginActivity;
@@ -24,7 +28,20 @@ public class ApiManager {
         }
     };
 
-    private static Gson GSON = new Gson();
+    private static Gson GSON = //new Gson();
+            new GsonBuilder()
+                    .setExclusionStrategies(new ExclusionStrategy() {
+                        @Override
+                        public boolean shouldSkipField(FieldAttributes f) {
+                            return f.getDeclaredClass().equals(ModelAdapter.class);
+                        }
+
+                        @Override
+                        public boolean shouldSkipClass(Class<?> clazz) {
+                            return false;
+                        }
+                    })
+                    .create();
 
     private static RestAdapter ADAPTER =
             new RestAdapter.Builder()
