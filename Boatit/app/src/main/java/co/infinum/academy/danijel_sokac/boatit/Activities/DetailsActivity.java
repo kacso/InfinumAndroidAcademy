@@ -127,5 +127,6 @@ public class DetailsActivity extends Activity {
         adapter = new CommentAdapter(DetailsActivity.this,
                 boat.getComments());
         commentList.setAdapter(adapter);
+        getActionBar().setTitle(boat.getTitle());
     }
 }

@@ -1,6 +1,7 @@
 package co.infinum.academy.danijel_sokac.boatit.Activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +33,7 @@ import co.infinum.academy.danijel_sokac.boatit.Singletons.BoatSingleton;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
 
 public class BoatsActivity extends Activity implements AdapterView.OnItemClickListener {
     @Bind(R.id.boats_list)
@@ -39,6 +42,7 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
     BoatsAdapter boatsAdapter;
 
     AllBoats boats;
+    Boatit db = new DBFlowBoatit();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +76,7 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
 
     public void getBoats() {
         ApiManager.getSERVICE().getBoats(SessionSingleton.InstanceOfSessionSingleton().getToken(),
-                1, 1, new retrofit.Callback<AllBoats>() {
+                1, 100, new retrofit.Callback<AllBoats>() {
                     @Override
                     public void success(AllBoats allBoats, Response response) {
 //                        Toast.makeText(BoatsActivity.this, "Got responses: " + response, Toast.LENGTH_SHORT).show();
@@ -81,15 +85,11 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                         boatsList.setAdapter(boatsAdapter);
                         boatsList.setOnItemClickListener(BoatsActivity.this);
 
-                        Boatit db = new DBFlowBoatit();
-
-                        Gson gson = new Gson();
-                        String dbBoats = gson.toJson(allBoats);
+                        String dbBoats = ApiManager.GSON.toJson(allBoats);
 
                         BoatDatabaseElement dbElement = new BoatDatabaseElement();
                         dbElement.setToken(SessionSingleton.InstanceOfSessionSingleton().getToken());
                         dbElement.setBoats(dbBoats);
-
                         db.addBoat(dbElement);
                     }
 
@@ -97,7 +97,6 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                     public void failure(RetrofitError error) {
                         Toast.makeText(BoatsActivity.this, "Get all boats error: " + error, Toast.LENGTH_LONG).show();
 
-                        Boatit db = new DBFlowBoatit();
                         boats = db.getBoats(SessionSingleton.InstanceOfSessionSingleton().getToken());
                     }
                 });

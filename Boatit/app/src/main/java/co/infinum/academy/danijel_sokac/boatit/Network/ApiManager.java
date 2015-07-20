@@ -28,7 +28,7 @@ public class ApiManager {
         }
     };
 
-    private static Gson GSON = //new Gson();
+    public static Gson GSON = //new Gson();
             new GsonBuilder()
                     .setExclusionStrategies(new ExclusionStrategy() {
                         @Override
