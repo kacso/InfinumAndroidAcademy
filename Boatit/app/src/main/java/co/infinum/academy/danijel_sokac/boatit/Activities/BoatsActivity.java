@@ -98,6 +98,9 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                         Toast.makeText(BoatsActivity.this, "Get all boats error: " + error, Toast.LENGTH_LONG).show();
 
                         boats = db.getBoats(SessionSingleton.InstanceOfSessionSingleton().getToken());
+                        boatsAdapter = new BoatsAdapter(BoatsActivity.this, boats.getBoatList());
+                        boatsList.setAdapter(boatsAdapter);
+                        boatsList.setOnItemClickListener(BoatsActivity.this);
                     }
                 });
     }
