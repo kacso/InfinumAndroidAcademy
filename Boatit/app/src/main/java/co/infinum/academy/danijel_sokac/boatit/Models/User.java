@@ -1,23 +1,29 @@
 package co.infinum.academy.danijel_sokac.boatit.Models;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Danijel on 18.7.2015..
  */
 public class User {
+    @Expose
     @SerializedName("email")
     private String email;
 
+    @Expose
     @SerializedName("password")
     private String password;
 
+    @Expose
     @SerializedName("password_confirmation")
     private String passwordConfirmation;
 
+    @Expose
     @SerializedName("first_name")
     private String firstName;
 
+    @Expose
     @SerializedName("last_name")
     private String lastName;
 

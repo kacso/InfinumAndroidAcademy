@@ -1,5 +1,7 @@
 package co.infinum.academy.danijel_sokac.boatit.Database;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
@@ -17,21 +19,42 @@ import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
  * Created by Danijel on 19.7.2015..
  */
 public class DBFlowBoatit implements Boatit {
-    @Override
-    public AllBoats getBoats(String token) {
-        Condition condition = Condition.columnsWithFunction(BoatitDatabase.NAME, "token").eq(token);
-        BoatDatabaseElement boatDatabaseElement =
-                new Select().from(BoatDatabaseElement.class).querySingle();
-//        Gson gson = new Gson();
-        return ApiManager.GSON.fromJson(boatDatabaseElement.getBoats(), AllBoats.class);
+    private Context context;
+
+    public DBFlowBoatit(Context context) {
+        this.context = context;
     }
 
     @Override
-    public void addBoat(BoatDatabaseElement boat) {
-        boat.insert();
+    public AllBoats getBoats(String token) {
+        Condition condition = Condition.columnsWithFunction(BoatitDatabase.NAME, "token").eq(token);
+        AllBoats allBoats = new AllBoats();
+        allBoats.setBoatList(new Select().from(Boat.class).queryList());
+        return allBoats;
+    }
+
+    @Override
+    public void updateBoat(Boat boat) {
+        boat.update();
     }
 
     @Override
     public void deleteBoats() {
+        context.deleteDatabase(BoatitDatabase.NAME + ".db");
+    }
+
+    @Override
+    public void addBoat(Boat boat) {
+        boat.insert();
+    }
+
+    @Override
+    public void addComment(Comment comment) {
+        comment.insert();
+    }
+
+    @Override
+    public void updateComment(Comment comment) {
+        comment.update();
     }
 }

@@ -13,7 +13,13 @@ public interface Boatit {
 
     public AllBoats getBoats(String token);
 
-    public void addBoat(BoatDatabaseElement boat);
+    public void updateBoat(Boat boat);
 
     public void deleteBoats();
+
+    public void addBoat(Boat boat);
+
+    public void addComment(Comment comment);
+
+    public void updateComment(Comment comment);
 }

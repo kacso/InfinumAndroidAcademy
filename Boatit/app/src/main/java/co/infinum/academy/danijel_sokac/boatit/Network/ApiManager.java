@@ -7,7 +7,6 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 import com.raizlabs.android.dbflow.structure.ModelAdapter;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -31,17 +30,18 @@ public class ApiManager {
 
     public static Gson GSON = //new Gson();
             new GsonBuilder()
-                    .setExclusionStrategies(new ExclusionStrategy() {
-                        @Override
-                        public boolean shouldSkipField(FieldAttributes f) {
-                            return f.getDeclaredClass().equals(BaseModel.class);
-                        }
-
-                        @Override
-                        public boolean shouldSkipClass(Class<?> clazz) {
-                            return false;
-                        }
-                    })
+//                    .setExclusionStrategies(new ExclusionStrategy() {
+//                        @Override
+//                        public boolean shouldSkipField(FieldAttributes f) {
+//                            return f.getDeclaredClass().equals(ModelAdapter.class);
+//                        }
+//
+//                        @Override
+//                        public boolean shouldSkipClass(Class<?> clazz) {
+//                            return false;
+//                        }
+//                    })
+                    .excludeFieldsWithoutExposeAnnotation()
                     .create();
 
     private static RestAdapter ADAPTER =

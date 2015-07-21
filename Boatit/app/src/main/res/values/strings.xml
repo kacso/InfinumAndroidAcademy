@@ -11,4 +11,7 @@
     <string name="upboat">UPBOAT</string>
     <string name="downboat">DOWNBOAT</string>
     <string name="register">REGISTER</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
 </resources>
