@@ -3,6 +3,7 @@ package co.infinum.academy.danijel_sokac.boatit.Activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import butterknife.ButterKnife;
 import co.infinum.academy.danijel_sokac.boatit.Adapters.BoatsAdapter;
 import co.infinum.academy.danijel_sokac.boatit.Database.BoatDatabaseElement;
 import co.infinum.academy.danijel_sokac.boatit.Database.Boatit;
+import co.infinum.academy.danijel_sokac.boatit.Database.BoatitDatabase;
 import co.infinum.academy.danijel_sokac.boatit.Database.DBFlowBoatit;
 import co.infinum.academy.danijel_sokac.boatit.Models.AllBoats;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
@@ -42,7 +44,7 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
     BoatsAdapter boatsAdapter;
 
     AllBoats boats;
-    Boatit db = new DBFlowBoatit();
+    Boatit db = new DBFlowBoatit(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +87,8 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                         boatsList.setAdapter(boatsAdapter);
                         boatsList.setOnItemClickListener(BoatsActivity.this);
 
-                        String dbBoats = ApiManager.GSON.toJson(allBoats);
+                        storeToDatabase(allBoats, SessionSingleton.InstanceOfSessionSingleton().getToken());
 
-                        BoatDatabaseElement dbElement = new BoatDatabaseElement();
-                        dbElement.setToken(SessionSingleton.InstanceOfSessionSingleton().getToken());
-                        dbElement.setBoats(dbBoats);
-                        db.addBoat(dbElement);
                     }
 
                     @Override
@@ -103,6 +101,57 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                         boatsList.setOnItemClickListener(BoatsActivity.this);
                     }
                 });
+    }
+
+//    private void storeToDatabase(AllBoats allBoats) {
+//        BoatDatabaseElement dbElement = new BoatDatabaseElement();
+//
+//        try {
+//            String dbBoats = ApiManager.GSON.toJson(allBoats);
+//
+//            dbElement.setToken(SessionSingleton.InstanceOfSessionSingleton().getToken());
+//            dbElement.setBoats(dbBoats);
+//            db.addBoat(dbElement);
+//        } catch (SQLiteConstraintException e) {
+//            e.printStackTrace();
+//            try {
+//                db.updateBoat(dbElement);
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    private void storeToDatabase(AllBoats allBoats, String token) {
+        db.deleteBoats();
+
+        for (Boat boat : allBoats.getBoatList()) {
+            try {
+                boat.setToken(token);
+                db.addBoat(boat);
+
+                for (Comment comment : boat.getComments()) {
+                    comment.setBoatId(boat.getId());
+                    try {
+                        db.addComment(comment);
+                    } catch (SQLiteConstraintException e) {
+                        e.printStackTrace();
+                        db.updateComment(comment);
+                    }
+                }
+
+            } catch (SQLiteConstraintException ex) {
+                ex.printStackTrace();
+                db.updateBoat(boat);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error while saving to db", Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @Override
