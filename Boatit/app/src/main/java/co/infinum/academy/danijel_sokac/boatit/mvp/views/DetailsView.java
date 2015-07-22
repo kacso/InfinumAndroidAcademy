@@ -25,4 +25,10 @@ public interface DetailsView extends BaseView {
     public void onBoatTitleReceived(String title);
 
     public void onRatingFinished(Boat boat);
+
+    public void displayNewCommentView();
+
+    public void onNewCommentSent();
+
+    public void onNewCommentCanceled();
 }

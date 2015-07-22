@@ -1,17 +1,17 @@
 package co.infinum.academy.danijel_sokac.boatit.Activities;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -25,15 +25,12 @@ import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Factories.MvpFactory;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
-import co.infinum.academy.danijel_sokac.boatit.Models.RateBoat;
-import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
+import co.infinum.academy.danijel_sokac.boatit.Models.NewComment;
+import co.infinum.academy.danijel_sokac.boatit.Models.NewCommentContent;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.BoatSingleton;
-import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.DetailsPresenter;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.DetailsView;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class DetailsActivity extends BaseActivity implements DetailsView {
     @Bind(R.id.upboat)
@@ -49,8 +46,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     ListView commentList;
 
     private CommentAdapter adapter;
-
-//    private int boatId;
 
     private DetailsPresenter presenter;
 
@@ -78,6 +73,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_details, menu);
+//        saveItem = menu.findItem(R.id.save);
         return true;
     }
 
@@ -89,9 +85,10 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+        if (id == R.id.new_comment) {
+            onNewCommentClicked();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -105,14 +102,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void onDownboatClicked(View v) {
         presenter.onDownboatClicked();
     }
-    private void displayBoat(Boat boat) {
-        Glide.with(DetailsActivity.this).load(boat
-                .getImageURL()).into(boatImage);
 
-        adapter = new CommentAdapter(DetailsActivity.this,
-                boat.getComments());
-        commentList.setAdapter(adapter);
-        getActionBar().setTitle(boat.getTitle());
+    public void onNewCommentClicked() {
+        presenter.onNewCommentClicked();
     }
 
     @Override
@@ -140,7 +132,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void onError(ErrorsEnum error) {
         showError(error.getId());
         if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
-            presenter = MvpFactory.getPresenter(
+            DetailsPresenter presenter = MvpFactory.getPresenter(
                     this, this,
                     BoatSingleton.InstanceOfSessionSingleton().getBoat(),
                     InternetConnectionStatus.DISCONNECTED);
@@ -158,5 +150,70 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     public void onRatingFinished(Boat boat) {
         Toast.makeText(this, "New score: " + boat.getScore(), Toast.LENGTH_SHORT).show();
+    }
+
+    Dialog newCommentDialog;
+
+    @Nullable @Bind(R.id.send_new_comment)
+    Button sendNewComment;
+
+    @Nullable @Bind(R.id.cancel_new_comment)
+    Button cancelNewComment;
+
+    @Nullable @Bind(R.id.new_comment_text)
+    EditText newCommentContent;
+
+    @Override
+    public void displayNewCommentView() {
+        newCommentDialog = new Dialog(this);
+        newCommentDialog.setTitle(R.string.new_comment_dialog_title);
+        newCommentDialog.setContentView(R.layout.new_comment_dialog);
+        newCommentDialog.show();
+
+        cancelNewComment = (Button)newCommentDialog.findViewById(R.id.cancel_new_comment);
+        sendNewComment = (Button)newCommentDialog.findViewById(R.id.send_new_comment);
+        newCommentContent = (EditText)newCommentDialog.findViewById(R.id.new_comment_text);
+
+//        ButterKnife.bind(this);
+//        sendNewComment = (Button) findViewById(R.id.send_new_comment);
+        sendNewComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSendNewCommentClicked(v);
+            }
+        });
+//        cancelNewComment = (Button) findViewById(R.id.cancel_new_comment);
+        cancelNewComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancelNewCommentClicked(v);
+            }
+        });
+//        newCommentContent = (EditText) findViewById(R.id.new_comment_text);
+    }
+
+    @Nullable @OnClick(R.id.send_new_comment)
+    public void onSendNewCommentClicked(View v) {
+        NewCommentContent content = new NewCommentContent();
+        content.setContent(newCommentContent.getText().toString());
+        NewComment newComment = new NewComment();
+        newComment.setComment(content);
+
+        presenter.onSendNewCommentClicked(newComment);
+    }
+
+    @Nullable @OnClick(R.id.cancel_new_comment)
+    public void onCancelNewCommentClicked(View v) {
+        presenter.onNewCommentCanceled();
+    }
+
+    @Override
+    public void onNewCommentSent() {
+        presenter.getComments();
+    }
+
+    @Override
+    public void onNewCommentCanceled() {
+        newCommentDialog.dismiss();
     }
 }

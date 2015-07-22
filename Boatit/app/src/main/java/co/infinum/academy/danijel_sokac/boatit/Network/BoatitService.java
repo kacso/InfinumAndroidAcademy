@@ -42,4 +42,11 @@ public interface BoatitService {
                      @Query("page") int page,
                      @Query("per_page") int perPage,
                      Callback<CommentList> comments);
+
+    @Headers("Content-Type: application/json")
+    @POST("/api/v1/posts/{post_id}/comments")
+    void sendComment(@Path("post_id") int postId,
+                     @Query("token") String token,
+                     @Body TypedString comment,
+                     Callback<Comment> response);
 }

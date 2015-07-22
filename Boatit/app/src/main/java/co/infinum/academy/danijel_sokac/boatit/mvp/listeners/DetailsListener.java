@@ -22,4 +22,10 @@ public interface DetailsListener {
     public void onError(ErrorsEnum error);
 
     public void onRateBoatFinished(Boat boat);
+
+    public void newCommentActionFinished();
+
+    public void newCommentSent();
+
+    public void newCommentCanceled();
 }

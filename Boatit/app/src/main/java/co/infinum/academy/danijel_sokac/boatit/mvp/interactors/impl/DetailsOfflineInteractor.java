@@ -4,6 +4,8 @@ import android.content.Context;
 
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
+import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
+import co.infinum.academy.danijel_sokac.boatit.Models.NewComment;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.DetailsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.DetailsListener;
 
@@ -42,6 +44,21 @@ public class DetailsOfflineInteractor implements DetailsInteractor {
 
     @Override
     public void downboat(DetailsListener listener) {
+        listener.onError(InternetConnectionErrorsEnum.OFFLINE_MODE);
+    }
+
+    @Override
+    public void newComment(DetailsListener listener) {
+        listener.onError(InternetConnectionErrorsEnum.OFFLINE_MODE);
+    }
+
+    @Override
+    public void sendNewComment(DetailsListener listener, NewComment comment) {
+        listener.onError(InternetConnectionErrorsEnum.OFFLINE_MODE);
+    }
+
+    @Override
+    public void cancelNewComment(DetailsListener listener) {
         listener.onError(InternetConnectionErrorsEnum.OFFLINE_MODE);
     }
 }

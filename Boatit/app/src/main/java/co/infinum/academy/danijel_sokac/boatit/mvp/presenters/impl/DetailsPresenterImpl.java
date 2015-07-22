@@ -7,6 +7,7 @@ import java.util.List;
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
+import co.infinum.academy.danijel_sokac.boatit.Models.NewComment;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.DetailsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.DetailsListener;
@@ -44,7 +45,7 @@ public class DetailsPresenterImpl implements DetailsPresenter {
 
     @Override
     public void onNewCommentClicked() {
-
+        interactor.newComment(listener);
     }
 
     @Override
@@ -55,6 +56,17 @@ public class DetailsPresenterImpl implements DetailsPresenter {
     @Override
     public void onDownboatClicked() {
         interactor.downboat(listener);
+    }
+
+    @Override
+    public void onSendNewCommentClicked(NewComment comment) {
+        view.showProgress();
+        interactor.sendNewComment(listener, comment);
+    }
+
+    @Override
+    public void onNewCommentCanceled() {
+        interactor.cancelNewComment(listener);
     }
 
     private DetailsListener listener = new DetailsListener() {
@@ -90,6 +102,22 @@ public class DetailsPresenterImpl implements DetailsPresenter {
         public void onRateBoatFinished(Boat boat) {
             view.hideProgress();
             view.onRatingFinished(boat);
+        }
+
+        @Override
+        public void newCommentActionFinished() {
+            view.displayNewCommentView();
+        }
+
+        @Override
+        public void newCommentSent() {
+            view.hideProgress();
+            view.onNewCommentSent();
+        }
+
+        @Override
+        public void newCommentCanceled() {
+            view.onNewCommentCanceled();
         }
     };
 }

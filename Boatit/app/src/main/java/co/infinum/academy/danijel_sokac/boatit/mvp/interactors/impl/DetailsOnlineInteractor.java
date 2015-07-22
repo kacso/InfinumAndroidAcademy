@@ -7,11 +7,14 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import co.infinum.academy.danijel_sokac.boatit.BoatitApplication;
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
+import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
 import co.infinum.academy.danijel_sokac.boatit.Models.CommentList;
+import co.infinum.academy.danijel_sokac.boatit.Models.NewComment;
 import co.infinum.academy.danijel_sokac.boatit.Models.RateBoat;
 import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.BoatSingleton;
@@ -21,6 +24,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.DetailsListener;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedString;
 
 /**
  * Created by Danijel on 22.7.2015..
@@ -110,6 +114,7 @@ public class DetailsOnlineInteractor implements DetailsInteractor {
         @Override
         public void success(RateBoat rateBoat, Response response) {
             listener.onRateBoatFinished(rateBoat.getBoat());
+            boat = rateBoat.getBoat();
         }
 
         @Override
@@ -118,4 +123,36 @@ public class DetailsOnlineInteractor implements DetailsInteractor {
         }
     };
 
+    @Override
+    public void newComment(DetailsListener listener) {
+        listener.newCommentActionFinished();
+    }
+
+    @Override
+    public void sendNewComment(DetailsListener listener, NewComment comment) {
+        //TODO
+        Gson gson = new Gson();
+        String s = gson.toJson(comment);
+        BoatitApplication.getApiService().sendComment(boat.getId(),
+                SessionSingleton.InstanceOfSessionSingleton().getToken(),
+                new TypedString(s),
+                newCommentCallback);
+    }
+
+    Callback<Comment> newCommentCallback = new Callback<Comment>() {
+        @Override
+        public void success(Comment comment, Response response) {
+            listener.newCommentSent();
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+        }
+    };
+
+    @Override
+    public void cancelNewComment(DetailsListener listener) {
+        listener.newCommentCanceled();
+    }
 }
