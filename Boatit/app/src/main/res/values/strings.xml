@@ -14,4 +14,12 @@
     <string name="confirm_password">Confirm password</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="progress_wait">Please wait...</string>
+    <string name="detailsViewError">Error while downloading boat details</string>
+    <string name="image_download_error">Errror while downloading image</string>
+    <string name="comment_download_error">Error while downloading comments</string>
+    <string name="boat_download_error">Error while downloading boats</string>
+    <string name="login_connection_error">Network error</string>
+    <string name="offline_mode">In offline mode</string>
+    <string name="rating_error">Error while rating boat</string>
 </resources>

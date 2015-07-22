@@ -19,6 +19,17 @@ import retrofit.converter.GsonConverter;
  * Created by Danijel on 13.7.2015..
  */
 public class ApiManager {
+    private static ApiManager instance;
+    private ApiManager(){}
+
+    public static ApiManager getInstance() {
+        if (instance == null) {
+            instance = new ApiManager();
+        }
+        return instance;
+    }
+
+
     public static final String ENDPOINT = "https://boatit.infinum.co";
     private static OkClient CLIENT = new OkClient(new OkHttpClient());
     private static RestAdapter.Log LOG = new RestAdapter.Log() {
@@ -28,19 +39,7 @@ public class ApiManager {
         }
     };
 
-    public static Gson GSON = //new Gson();
-            new GsonBuilder()
-//                    .setExclusionStrategies(new ExclusionStrategy() {
-//                        @Override
-//                        public boolean shouldSkipField(FieldAttributes f) {
-//                            return f.getDeclaredClass().equals(ModelAdapter.class);
-//                        }
-//
-//                        @Override
-//                        public boolean shouldSkipClass(Class<?> clazz) {
-//                            return false;
-//                        }
-//                    })
+    public static Gson GSON = new GsonBuilder()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create();
 
@@ -59,4 +58,5 @@ public class ApiManager {
     }
 
     public static BoatitService getSERVICE() { return SERVICE; }
+
 }

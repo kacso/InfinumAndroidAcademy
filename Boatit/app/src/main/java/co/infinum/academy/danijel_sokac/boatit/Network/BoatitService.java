@@ -1,6 +1,8 @@
 package co.infinum.academy.danijel_sokac.boatit.Network;
 
 import co.infinum.academy.danijel_sokac.boatit.Models.AllBoats;
+import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
+import co.infinum.academy.danijel_sokac.boatit.Models.CommentList;
 import co.infinum.academy.danijel_sokac.boatit.Models.LoginResponse;
 import co.infinum.academy.danijel_sokac.boatit.Models.RateBoat;
 import retrofit.Callback;
@@ -33,4 +35,11 @@ public interface BoatitService {
 
     @GET("/api/v1/posts/{id}/downboat")
     void getDownboat(@Path("id") int id, @Query("token") String token, Callback<RateBoat> callback);
+
+    @GET("/api/v1/posts/{post_id}/comments")
+    void getComments(@Path("post_id") int postId,
+                     @Query("token") String token,
+                     @Query("page") int page,
+                     @Query("per_page") int perPage,
+                     Callback<CommentList> comments);
 }

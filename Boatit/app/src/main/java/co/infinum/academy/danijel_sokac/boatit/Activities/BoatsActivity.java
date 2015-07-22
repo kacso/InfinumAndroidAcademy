@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -132,26 +133,30 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                 boat.setToken(token);
                 db.addBoat(boat);
 
-                for (Comment comment : boat.getComments()) {
-                    comment.setBoatId(boat.getId());
-                    try {
-                        db.addComment(comment);
-                    } catch (SQLiteConstraintException e) {
-                        e.printStackTrace();
-                        db.updateComment(comment);
-                    }
-                }
+                storeCommentsToDatabase(boat);
 
             } catch (SQLiteConstraintException ex) {
                 ex.printStackTrace();
-                db.updateBoat(boat);
+//                db.updateBoat(boat);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Error while saving to db", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Errors while saving to db", Toast.LENGTH_SHORT).show();
             }
         }
 
+    }
+
+    private void storeCommentsToDatabase(Boat boat) {
+        for (Comment comment : boat.getComments()) {
+            comment.setBoatId(boat.getId());
+            try {
+                db.addComment(comment);
+            } catch (SQLiteConstraintException e) {
+                e.printStackTrace();
+//                db.updateComment(comment);
+            }
+        }
     }
 
     @Override

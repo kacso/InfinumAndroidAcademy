@@ -8,7 +8,7 @@ import co.infinum.academy.danijel_sokac.boatit.Models.Author;
  * Created by Danijel on 21.7.2015..
  */
 @com.raizlabs.android.dbflow.annotation.TypeConverter
-public class AuthorDBCreator extends TypeConverter<String, Author> {
+public class AuthorDBConverter extends TypeConverter<String, Author> {
 
     @Override
     public String getDBValue(Author author) {

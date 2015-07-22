@@ -86,13 +86,6 @@ public class RegisterFragment extends Fragment{
             user.setPasswordConfirmation(confirmPass);
 
             String registerData = new Gson().toJson(new RegisterData(user));
-//            JSONObject registerData = new JSONObject();
-//            try {
-//                registerData.put("user", user);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-
 
             ApiManager.postSERVICE().register(new TypedString(registerData), new retrofit.Callback<LoginResponse>(){
 

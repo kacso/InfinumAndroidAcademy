@@ -1,6 +1,7 @@
 package co.infinum.academy.danijel_sokac.boatit.Activities;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,20 +13,29 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import co.infinum.academy.danijel_sokac.boatit.Adapters.CommentAdapter;
+import co.infinum.academy.danijel_sokac.boatit.Enum.InternetConnectionStatus;
+import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorTypeEnum;
+import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
+import co.infinum.academy.danijel_sokac.boatit.Factories.MvpFactory;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
+import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
 import co.infinum.academy.danijel_sokac.boatit.Models.RateBoat;
 import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.BoatSingleton;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.DetailsPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.DetailsView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends BaseActivity implements DetailsView {
     @Bind(R.id.upboat)
     Button upboat;
 
@@ -38,7 +48,11 @@ public class DetailsActivity extends Activity {
     @Bind(R.id.comment_list_view)
     ListView commentList;
 
-    CommentAdapter adapter;
+    private CommentAdapter adapter;
+
+//    private int boatId;
+
+    private DetailsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +61,17 @@ public class DetailsActivity extends Activity {
 
         ButterKnife.bind(this);
 
-        displayBoat(BoatSingleton.InstanceOfSessionSingleton().getBoat());
-//        Glide.with(DetailsActivity.this).load(
-//                BoatSingleton.InstanceOfSessionSingleton().getBoat()
-//                        .getImageURL()).into(boatImage);
-//
-//        adapter = new CommentAdapter(this,
-//                BoatSingleton.InstanceOfSessionSingleton().getBoat().getComments());
-//        commentList.setAdapter(adapter);
+//        boatId = BoatSingleton.InstanceOfSessionSingleton().getBoat().getId();
+
+//        displayBoat(BoatSingleton.InstanceOfSessionSingleton().getBoat());
+
+        presenter = MvpFactory.getPresenter(
+                this, this,
+                BoatSingleton.InstanceOfSessionSingleton().getBoat(),
+                InternetConnectionStatus.CONNECTED);
+        presenter.getBoatImage();
+        presenter.getBoatTitle();
+        presenter.getComments();
     }
 
     @Override
@@ -81,44 +98,12 @@ public class DetailsActivity extends Activity {
 
     @OnClick(R.id.upboat)
     public void onUpboatClicked(View v) {
-        ApiManager.getSERVICE().getUpboat(BoatSingleton.InstanceOfSessionSingleton().getBoat().getId(),
-                SessionSingleton.InstanceOfSessionSingleton().getToken(),
-                new retrofit.Callback<RateBoat>() {
-
-                    @Override
-                    public void success(RateBoat rateBoat, Response response) {
-//                            displayBoat(rateBoat.getBoat());
-                        Toast.makeText(DetailsActivity.this,
-                                "New score: " + rateBoat.getBoat().getScore(),
-                                Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(DetailsActivity.this, "" + error, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        presenter.onUpboatClicked();
     }
 
     @OnClick(R.id.downboat)
     public void onDownboatClicked(View v) {
-        ApiManager.getSERVICE().getDownboat(BoatSingleton.InstanceOfSessionSingleton().getBoat().getId(),
-                SessionSingleton.InstanceOfSessionSingleton().getToken(),
-                new retrofit.Callback<RateBoat>() {
-
-                    @Override
-                    public void success(RateBoat rateBoat, Response response) {
-                        Toast.makeText(DetailsActivity.this,
-                                "New score: " + rateBoat.getBoat().getScore(),
-                                Toast.LENGTH_SHORT).show();
-//                        displayBoat(rateBoat.getBoat());
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(DetailsActivity.this, "" + error, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        presenter.onDownboatClicked();
     }
     private void displayBoat(Boat boat) {
         Glide.with(DetailsActivity.this).load(boat
@@ -128,5 +113,50 @@ public class DetailsActivity extends Activity {
                 boat.getComments());
         commentList.setAdapter(adapter);
         getActionBar().setTitle(boat.getTitle());
+    }
+
+    @Override
+    public void onCommentListReceived(List<Comment> comments) {
+        adapter = new CommentAdapter(this, comments);
+        commentList.setAdapter(adapter);
+    }
+
+    @Override
+    public void onCommentListEmpty() {
+
+    }
+
+    @Override
+    public void onBoatImageReceived(Bitmap image) {
+        boatImage.setImageBitmap(image);
+    }
+
+    @Override
+    public void onTokenExpired() {
+
+    }
+
+    @Override
+    public void onError(ErrorsEnum error) {
+        showError(error.getId());
+        if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
+            presenter = MvpFactory.getPresenter(
+                    this, this,
+                    BoatSingleton.InstanceOfSessionSingleton().getBoat(),
+                    InternetConnectionStatus.DISCONNECTED);
+            presenter.getBoatImage();
+            presenter.getBoatTitle();
+            presenter.getComments();
+        }
+    }
+
+    @Override
+    public void onBoatTitleReceived(String title) {
+        getActionBar().setTitle(title);
+    }
+
+    @Override
+    public void onRatingFinished(Boat boat) {
+        Toast.makeText(this, "New score: " + boat.getScore(), Toast.LENGTH_SHORT).show();
     }
 }
