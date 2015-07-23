@@ -41,7 +41,7 @@ public class BoatRatingPresenterImpl implements BoatRatingPresenter {
         @Override
         public void onError(ErrorsEnum error) {
             view.hideProgress();
-            view.onRatingError(error);
+            view.onError(error);
         }
     };
 }

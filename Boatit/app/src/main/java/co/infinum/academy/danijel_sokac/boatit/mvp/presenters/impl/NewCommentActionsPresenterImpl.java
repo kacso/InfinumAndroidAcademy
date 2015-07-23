@@ -45,7 +45,7 @@ public class NewCommentActionsPresenterImpl implements NewCommentActionsPresente
         @Override
         public void onError(ErrorsEnum error) {
             view.hideProgress();
-            view.onNewCommentActionsError(error);
+            view.onError(error);
         }
     };
 }

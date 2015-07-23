@@ -9,6 +9,4 @@ public interface NewCommentActionsView extends BaseView {
     public void onNewCommentSent();
 
     public void onNewCommentCanceled();
-
-    public void onNewCommentActionsError(ErrorsEnum error);
 }

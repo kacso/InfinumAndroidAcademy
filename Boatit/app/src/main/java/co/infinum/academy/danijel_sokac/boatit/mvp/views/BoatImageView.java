@@ -9,6 +9,4 @@ import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
  */
 public interface BoatImageView extends BaseView {
     public void onBoatImageReceived(Bitmap boatImage);
-
-    public void onBoatImageError(ErrorsEnum error);
 }

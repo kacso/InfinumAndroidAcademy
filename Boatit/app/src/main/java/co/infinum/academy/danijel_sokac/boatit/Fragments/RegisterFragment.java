@@ -36,7 +36,7 @@ import retrofit.mime.TypedString;
 /**
  * Created by Danijel on 18.7.2015..
  */
-public class RegisterFragment extends Fragment{
+public class RegisterFragment extends Fragment {
     @Bind(R.id.register_email)
     EditText email;
 

@@ -8,6 +8,4 @@ import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
  */
 public interface BoatRatingView extends BaseView {
     public void onRatingFinished(Boat boat);
-
-    public void onRatingError(ErrorsEnum error);
 }

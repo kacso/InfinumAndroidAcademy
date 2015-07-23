@@ -45,7 +45,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentView;
  * Created by Danijel on 22.7.2015..
  */
 public class MvpFactory {
-    public static BoatDetailsPresenter getBoatDetailsPresenter
+    public static BoatDetailsPresenter getPresenter
             (Context context, BoatDetailsView view, Boat boat, InternetConnectionStatus status) {
 
         BoatDetailsInteractor interactor;
@@ -57,7 +57,7 @@ public class MvpFactory {
         return new BoatDetailsPresenterImpl(view, interactor);
     }
 
-    public static BoatImagePresenter getBoatImagePresenter
+    public static BoatImagePresenter getPresenter
             (Context context, BoatImageView view, Boat boat, InternetConnectionStatus status) {
 
         BoatImageInteractor interactor;
@@ -69,7 +69,7 @@ public class MvpFactory {
         return new BoatImagePresenterImpl(view, interactor);
     }
 
-    public static BoatRatingPresenter getBoatRatingPresenter
+    public static BoatRatingPresenter getPresenter
             (Context context, BoatRatingView view, Boat boat, InternetConnectionStatus status) {
 
         BoatRatingInteractor interactor;
@@ -81,7 +81,7 @@ public class MvpFactory {
         return new BoatRatingPresenterImpl(view, interactor);
     }
 
-    public static CommentsPresenter getCommentsPresenter
+    public static CommentsPresenter getPresenter
             (Context context, CommentsView view, Boat boat, InternetConnectionStatus status) {
 
         CommentsInteractor interactor;
@@ -93,7 +93,7 @@ public class MvpFactory {
         return new CommentsPresenterImpl(view, interactor);
     }
 
-    public static NewCommentActionsPresenter getNewCommentActionsPresenter
+    public static NewCommentActionsPresenter getPresenter
             (Context context, NewCommentActionsView view, Boat boat, InternetConnectionStatus status) {
         NewCommentActionsInteractor interactor;
         if (status == InternetConnectionStatus.CONNECTED) {
@@ -104,7 +104,7 @@ public class MvpFactory {
         return new NewCommentActionsPresenterImpl(view, interactor);
     }
 
-    public static NewCommentPresenter getNewCommentPresenter
+    public static NewCommentPresenter getPresenter
             (Context context, NewCommentView view, Boat boat, InternetConnectionStatus status) {
         NewCommentInteractor interactor;
         if (status == InternetConnectionStatus.CONNECTED) {

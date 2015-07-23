@@ -7,6 +7,4 @@ import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
  */
 public interface NewCommentView extends BaseView {
     public void displayNewCommentView();
-
-    public void onNewCommentError(ErrorsEnum error);
 }

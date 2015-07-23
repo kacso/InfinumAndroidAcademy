@@ -43,7 +43,7 @@ public class CommentsPresenterImpl implements CommentsPresenter {
         @Override
         public void onError(ErrorsEnum error) {
             view.hideProgress();
-            view.onCommentsError(error);
+            view.onError(error);
         }
     };
 }

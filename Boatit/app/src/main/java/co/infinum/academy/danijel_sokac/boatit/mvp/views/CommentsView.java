@@ -12,6 +12,4 @@ public interface CommentsView extends BaseView {
     public void onCommentListReceived(List<Comment> comments);
 
     public void onCommentListEmpty();
-
-    public void onCommentsError(ErrorsEnum error);
 }

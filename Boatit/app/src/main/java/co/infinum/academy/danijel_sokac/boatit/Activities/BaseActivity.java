@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.design.widget.Snackbar;
 import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
@@ -13,7 +14,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.views.BaseView;
 /**
  * Created by Danijel on 22.7.2015..
  */
-public class BaseActivity extends Activity implements BaseView {
+public class BaseActivity extends FragmentActivity implements BaseView {
     private ProgressDialog progressDialog;
 
     @Override

@@ -38,7 +38,7 @@ public class BoatImagePresenterImpl implements BoatImagePresenter {
         @Override
         public void onError(ErrorsEnum error) {
             view.hideProgress();
-            view.onBoatImageError(error);
+            view.onError(error);
         }
     };
 }

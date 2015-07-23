@@ -39,7 +39,7 @@ public class BoatDetailsPresenterImpl implements BoatDetailsPresenter {
         @Override
         public void onError(ErrorsEnum error) {
             view.hideProgress();
-            view.onBoatDetailsError(error);
+            view.onError(error);
         }
     };
 }

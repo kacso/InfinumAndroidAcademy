@@ -13,7 +13,5 @@ import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
  * Created by Danijel on 22.7.2015..
  */
 public interface BoatDetailsView extends BaseView {
-    public void onBoatDetailsError(ErrorsEnum error);
-
     public void onBoatTitleReceived(String title);
 }

@@ -7,38 +7,19 @@
     tools:context="co.infinum.academy.danijel_sokac.boatit.Activities.DetailsActivity"
     android:orientation="vertical">
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/details_image"/>
+        android:id="@+id/details_image_fragment"/>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/details_rating_fragment"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:id="@+id/upboat"
-            android:text="@string/upboat"
-            android:layout_gravity="left"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_gravity="right"
-            android:text="@string/downboat"
-            android:id="@+id/downboat"/>
-    </LinearLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/comment_swipe">
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/comment_list_view"></ListView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:id="@+id/comment_list_fragment">
+    </FrameLayout>
 </LinearLayout>

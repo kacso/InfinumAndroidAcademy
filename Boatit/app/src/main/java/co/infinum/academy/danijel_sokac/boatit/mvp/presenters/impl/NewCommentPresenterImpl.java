@@ -34,7 +34,7 @@ public class NewCommentPresenterImpl implements NewCommentPresenter {
         @Override
         public void onError(ErrorsEnum error) {
             view.hideProgress();
-            view.onNewCommentError(error);
+            view.onError(error);
         }
     };
 }
