@@ -12,20 +12,8 @@ import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
 /**
  * Created by Danijel on 22.7.2015..
  */
-public interface DetailsListener {
-    public void onCommentsReceived(List<Comment> commentList);
-
+public interface BoatDetailsListener {
     public void onBoatTitleReceived(String title);
 
-    public void onBoatImageReceived(Bitmap image);
-
     public void onError(ErrorsEnum error);
-
-    public void onRateBoatFinished(Boat boat);
-
-    public void newCommentActionFinished();
-
-    public void newCommentSent();
-
-    public void newCommentCanceled();
 }

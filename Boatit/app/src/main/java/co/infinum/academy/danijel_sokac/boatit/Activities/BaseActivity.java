@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
+import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.BaseView;
 
@@ -44,5 +45,16 @@ public class BaseActivity extends Activity implements BaseView {
     protected void onStop() {
         super.onStop();
         hideProgress();
+    }
+
+
+    @Override
+    public void onError(ErrorsEnum error) {
+        showError(error.getId());
+    }
+
+    @Override
+    public void onTokenExpired() {
+
     }
 }

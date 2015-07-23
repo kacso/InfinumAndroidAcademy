@@ -27,4 +27,5 @@
     <string name="cancel">Cancel</string>
     <string name="new_comment">New comment</string>
     <string name="new_comment_dialog_title">New comment</string>
+    <string name="comment_post_error">Error while posting comment</string>
 </resources>

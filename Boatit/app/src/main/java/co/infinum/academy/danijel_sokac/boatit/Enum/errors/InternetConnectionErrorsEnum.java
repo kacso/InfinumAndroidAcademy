@@ -13,8 +13,8 @@ public enum InternetConnectionErrorsEnum implements ErrorsEnum {
     BOAT_DOWNLOAD_ERROR(R.string.boat_download_error),
     LOGIN_CONNECTION_ERROR(R.string.login_connection_error),
     OFFLINE_MODE(R.string.offline_mode),
-    RATING_ERROR(R.string.rating_error)
-    ;
+    RATING_ERROR(R.string.rating_error),
+    COMMENT_POST_ERROR(R.string.comment_post_error);
 
     private int code;
 

@@ -29,10 +29,22 @@ import co.infinum.academy.danijel_sokac.boatit.Models.NewComment;
 import co.infinum.academy.danijel_sokac.boatit.Models.NewCommentContent;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.BoatSingleton;
-import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.DetailsPresenter;
-import co.infinum.academy.danijel_sokac.boatit.mvp.views.DetailsView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatDetailsPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatImagePresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatRatingPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.CommentsPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.NewCommentActionsPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.NewCommentPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatDetailsView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatImageView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatRatingView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.CommentsView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentActionsView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentView;
 
-public class DetailsActivity extends BaseActivity implements DetailsView {
+public class DetailsActivity extends BaseActivity implements BoatDetailsView, BoatImageView,
+        BoatRatingView, CommentsView, NewCommentView, NewCommentActionsView
+{
     @Bind(R.id.upboat)
     Button upboat;
 
@@ -47,7 +59,12 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     private CommentAdapter adapter;
 
-    private DetailsPresenter presenter;
+    private BoatImagePresenter boatImagePresenter;
+    private BoatDetailsPresenter boatDetailsPresenter;
+    private BoatRatingPresenter boatRatingPresenter;
+    private CommentsPresenter commentsPresenter;
+    private NewCommentActionsPresenter newCommentActionsPresenter;
+    private NewCommentPresenter newCommentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +73,50 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
         ButterKnife.bind(this);
 
-//        boatId = BoatSingleton.InstanceOfSessionSingleton().getBoat().getId();
+        initPresenters(BoatSingleton.InstanceOfSessionSingleton().getBoat());
 
-//        displayBoat(BoatSingleton.InstanceOfSessionSingleton().getBoat());
 
-        presenter = MvpFactory.getPresenter(
+        boatImagePresenter.getBoatImage();
+        boatDetailsPresenter.getBoatTitle();
+        commentsPresenter.getComments();
+    }
+
+    private void initPresenters(Boat boat) {
+        boatImagePresenter = MvpFactory.getBoatImagePresenter(
                 this, this,
-                BoatSingleton.InstanceOfSessionSingleton().getBoat(),
+                boat,
                 InternetConnectionStatus.CONNECTED);
-        presenter.getBoatImage();
-        presenter.getBoatTitle();
-        presenter.getComments();
+
+        boatDetailsPresenter = MvpFactory.getBoatDetailsPresenter(
+                this, this,
+                boat,
+                InternetConnectionStatus.CONNECTED);
+
+        boatRatingPresenter = MvpFactory.getBoatRatingPresenter(
+                this, this,
+                boat,
+                InternetConnectionStatus.CONNECTED);
+
+        commentsPresenter = MvpFactory.getCommentsPresenter(
+                this, this,
+                boat,
+                InternetConnectionStatus.CONNECTED);
+
+        newCommentPresenter = MvpFactory.getNewCommentPresenter(
+                this, this,
+                boat,
+                InternetConnectionStatus.CONNECTED);
+
+        newCommentActionsPresenter = MvpFactory.getNewCommentActionsPresenter(
+                this, this,
+                boat,
+                InternetConnectionStatus.CONNECTED);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_details, menu);
-//        saveItem = menu.findItem(R.id.save);
         return true;
     }
 
@@ -95,16 +138,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @OnClick(R.id.upboat)
     public void onUpboatClicked(View v) {
-        presenter.onUpboatClicked();
+        boatRatingPresenter.onUpboatClicked();
     }
 
     @OnClick(R.id.downboat)
     public void onDownboatClicked(View v) {
-        presenter.onDownboatClicked();
+        boatRatingPresenter.onDownboatClicked();
     }
 
     public void onNewCommentClicked() {
-        presenter.onNewCommentClicked();
+        newCommentPresenter.onNewCommentClicked();
     }
 
     @Override
@@ -128,19 +171,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     }
 
-    @Override
-    public void onError(ErrorsEnum error) {
-        showError(error.getId());
-        if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
-            DetailsPresenter presenter = MvpFactory.getPresenter(
-                    this, this,
-                    BoatSingleton.InstanceOfSessionSingleton().getBoat(),
-                    InternetConnectionStatus.DISCONNECTED);
-            presenter.getBoatImage();
-            presenter.getBoatTitle();
-            presenter.getComments();
-        }
-    }
 
     @Override
     public void onBoatTitleReceived(String title) {
@@ -175,21 +205,19 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         newCommentContent = (EditText)newCommentDialog.findViewById(R.id.new_comment_text);
 
 //        ButterKnife.bind(this);
-//        sendNewComment = (Button) findViewById(R.id.send_new_comment);
         sendNewComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onSendNewCommentClicked(v);
             }
         });
-//        cancelNewComment = (Button) findViewById(R.id.cancel_new_comment);
+
         cancelNewComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancelNewCommentClicked(v);
             }
         });
-//        newCommentContent = (EditText) findViewById(R.id.new_comment_text);
     }
 
     @Nullable @OnClick(R.id.send_new_comment)
@@ -199,21 +227,74 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         NewComment newComment = new NewComment();
         newComment.setComment(content);
 
-        presenter.onSendNewCommentClicked(newComment);
+        newCommentActionsPresenter.onSendNewCommentClicked(newComment);
     }
 
     @Nullable @OnClick(R.id.cancel_new_comment)
     public void onCancelNewCommentClicked(View v) {
-        presenter.onNewCommentCanceled();
+        newCommentActionsPresenter.onNewCommentCanceled();
     }
 
     @Override
     public void onNewCommentSent() {
-        presenter.getComments();
+        newCommentDialog.dismiss();
+        commentsPresenter.getComments();
     }
 
     @Override
     public void onNewCommentCanceled() {
         newCommentDialog.dismiss();
+    }
+
+
+    @Override
+    public void onBoatDetailsError(ErrorsEnum error) {
+        onError(error);
+        if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
+            BoatDetailsPresenter presenter = MvpFactory.getBoatDetailsPresenter(
+                    this, this,
+                    BoatSingleton.InstanceOfSessionSingleton().getBoat(),
+                    InternetConnectionStatus.DISCONNECTED);
+            presenter.getBoatTitle();
+        }
+    }
+
+    @Override
+    public void onBoatImageError(ErrorsEnum error) {
+        onError(error);
+        if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
+            BoatImagePresenter presenter = MvpFactory.getBoatImagePresenter(
+                    this, this,
+                    BoatSingleton.InstanceOfSessionSingleton().getBoat(),
+                    InternetConnectionStatus.DISCONNECTED);
+            presenter.getBoatImage();
+        }
+    }
+
+    @Override
+    public void onRatingError(ErrorsEnum error) {
+        onError(error);
+    }
+
+    @Override
+    public void onCommentsError(ErrorsEnum error) {
+        onError(error);
+        if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
+            CommentsPresenter presenter = MvpFactory.getCommentsPresenter(
+                    this, this,
+                    BoatSingleton.InstanceOfSessionSingleton().getBoat(),
+                    InternetConnectionStatus.DISCONNECTED);
+            presenter.getComments();
+        }
+    }
+
+    @Override
+    public void onNewCommentActionsError(ErrorsEnum error) {
+        onError(error);
+    }
+
+    @Override
+    public void onNewCommentError(ErrorsEnum error) {
+        onError(error);
     }
 }
