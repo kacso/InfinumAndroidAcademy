@@ -3,7 +3,9 @@ package co.infinum.academy.danijel_sokac.boatit.Activities;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,8 +45,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentActionsView;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentView;
 
 public class DetailsActivity extends BaseActivity implements BoatDetailsView, BoatImageView,
-        BoatRatingView, CommentsView, NewCommentView, NewCommentActionsView
-{
+        BoatRatingView, CommentsView, NewCommentView, NewCommentActionsView, SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.upboat)
     Button upboat;
 
@@ -56,6 +57,9 @@ public class DetailsActivity extends BaseActivity implements BoatDetailsView, Bo
 
     @Bind(R.id.comment_list_view)
     ListView commentList;
+
+    @Bind(R.id.comment_swipe)
+    SwipeRefreshLayout commentSwipe;
 
     private CommentAdapter adapter;
 
@@ -72,6 +76,8 @@ public class DetailsActivity extends BaseActivity implements BoatDetailsView, Bo
         setContentView(R.layout.activity_details);
 
         ButterKnife.bind(this);
+
+        commentSwipe.setOnRefreshListener(this);
 
         initPresenters(BoatSingleton.InstanceOfSessionSingleton().getBoat());
 
@@ -152,6 +158,7 @@ public class DetailsActivity extends BaseActivity implements BoatDetailsView, Bo
 
     @Override
     public void onCommentListReceived(List<Comment> comments) {
+//        commentSwipe.setRefreshing(false);
         adapter = new CommentAdapter(this, comments);
         commentList.setAdapter(adapter);
     }
@@ -296,5 +303,21 @@ public class DetailsActivity extends BaseActivity implements BoatDetailsView, Bo
     @Override
     public void onNewCommentError(ErrorsEnum error) {
         onError(error);
+    }
+
+    @Override
+    public void onRefresh() {
+        commentsPresenter.getComments();
+    }
+
+
+    @Override
+    public void showProgress() {
+        commentSwipe.setRefreshing(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        commentSwipe.setRefreshing(false);
     }
 }
