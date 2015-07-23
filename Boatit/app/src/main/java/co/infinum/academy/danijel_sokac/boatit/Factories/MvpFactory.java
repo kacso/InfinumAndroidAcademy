@@ -7,39 +7,43 @@ import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.BoatDetailsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.BoatImageInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.BoatRatingInteractor;
+import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.BoatsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.CommentsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.NewCommentActionsInteractor;
-import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.NewCommentInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatDetailsOfflineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatDetailsOnlineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatImageOfflineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatImageOnlineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatRatingOfflineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatRatingOnlineInteractor;
+import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatsOfflineInteractor;
+import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.BoatsOnlineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.CommentsOfflineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.CommentsOnlineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.NewCommentActionsOfflineInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.NewCommentActionsOnlineInteractor;
-import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.NewCommentOfflineInteractor;
-import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.NewCommentOnlineInteractor;
+import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl.TokenInteractorImpl;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatDetailsPresenter;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatImagePresenter;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatRatingPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.BoatsPresenter;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.CommentsPresenter;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.NewCommentActionsPresenter;
-import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.NewCommentPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.SplashPresenter;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.BoatDetailsPresenterImpl;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.BoatImagePresenterImpl;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.BoatRatingPresenterImpl;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.BoatsPresenterImpl;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.CommentsPresenterImpl;
 import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.NewCommentActionsPresenterImpl;
-import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.NewCommentPresenterImpl;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.impl.SplashPresenterImpl;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatDetailsView;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatImageView;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatRatingView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatsView;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.CommentsView;
 import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentActionsView;
-import co.infinum.academy.danijel_sokac.boatit.mvp.views.NewCommentView;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.SplashView;
 
 /**
  * Created by Danijel on 22.7.2015..
@@ -104,14 +108,19 @@ public class MvpFactory {
         return new NewCommentActionsPresenterImpl(view, interactor);
     }
 
-    public static NewCommentPresenter getPresenter
-            (Context context, NewCommentView view, Boat boat, InternetConnectionStatus status) {
-        NewCommentInteractor interactor;
+    public static BoatsPresenter getPresenter
+            (Context context, BoatsView view, InternetConnectionStatus status) {
+        BoatsInteractor interactor;
         if (status == InternetConnectionStatus.CONNECTED) {
-            interactor = new NewCommentOnlineInteractor(context);
+            interactor = new BoatsOnlineInteractor(context);
         } else {
-            interactor = new NewCommentOfflineInteractor(context);
+            interactor = new BoatsOfflineInteractor(context);
         }
-        return new NewCommentPresenterImpl(view, interactor);
+        return new BoatsPresenterImpl(view, interactor);
     }
+
+    public static SplashPresenter getPresenter(Context context, SplashView view) {
+        return new SplashPresenterImpl(view, new TokenInteractorImpl(context));
+    }
+
 }

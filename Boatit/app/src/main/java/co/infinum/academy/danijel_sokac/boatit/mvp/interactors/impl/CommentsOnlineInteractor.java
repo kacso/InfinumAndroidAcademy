@@ -33,7 +33,7 @@ public class CommentsOnlineInteractor implements CommentsInteractor {
     public void getComments(CommentsListener listener) {
         this.listener = listener;
         BoatitApplication.getApiService().getComments(boat.getId(),
-                SessionSingleton.InstanceOfSessionSingleton().getToken(),
+                SessionSingleton.InstanceOfSessionSingleton().getToken(context),
                 1, 100, commentsResponseCallback);
     }
 

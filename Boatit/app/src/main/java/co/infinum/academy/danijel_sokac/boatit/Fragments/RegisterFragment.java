@@ -92,7 +92,7 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void success(LoginResponse loginResponse, Response response) {
                     String token = loginResponse.getResponse().getToken();
-                    SessionSingleton.InstanceOfSessionSingleton().setToken(token);
+                    SessionSingleton.InstanceOfSessionSingleton().setToken(getActivity(), token);
                     Intent intent = new Intent(getActivity(), BoatsActivity.class);
                     startActivity(intent);
                 }

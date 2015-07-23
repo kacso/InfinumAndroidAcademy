@@ -31,7 +31,7 @@ public class BoatRatingOnlineInteractor implements BoatRatingInteractor {
     public void upboat(BoatRatingListener listener) {
         this.listener = listener;
         BoatitApplication.getApiService().getUpboat(boat.getId(),
-                SessionSingleton.InstanceOfSessionSingleton().getToken(),
+                SessionSingleton.InstanceOfSessionSingleton().getToken(context),
                 rateBoatCallback);
     }
 
@@ -39,7 +39,7 @@ public class BoatRatingOnlineInteractor implements BoatRatingInteractor {
     public void downboat(BoatRatingListener listener) {
         this.listener = listener;
         BoatitApplication.getApiService().getDownboat(boat.getId(),
-                SessionSingleton.InstanceOfSessionSingleton().getToken(),
+                SessionSingleton.InstanceOfSessionSingleton().getToken(context),
                 rateBoatCallback);
     }
 

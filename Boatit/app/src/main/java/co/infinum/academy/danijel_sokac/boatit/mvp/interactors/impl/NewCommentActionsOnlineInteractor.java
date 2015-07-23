@@ -37,7 +37,7 @@ public class NewCommentActionsOnlineInteractor implements NewCommentActionsInter
         Gson gson = new Gson();
         String s = gson.toJson(comment);
         BoatitApplication.getApiService().sendComment(boat.getId(),
-                SessionSingleton.InstanceOfSessionSingleton().getToken(),
+                SessionSingleton.InstanceOfSessionSingleton().getToken(context),
                 new TypedString(s),
                 newCommentCallback);
     }

@@ -91,7 +91,7 @@ public class LoginActivity extends FragmentActivity{
             public void success(LoginResponse login, Response response) {
 //                Toast.makeText(LoginActivity.this, "" + response, Toast.LENGTH_SHORT).show();
                 String token = login.getResponse().getToken();
-                SessionSingleton.InstanceOfSessionSingleton().setToken(token);
+                SessionSingleton.InstanceOfSessionSingleton().setToken(LoginActivity.this, token);
                 Intent intent = new Intent(LoginActivity.this, BoatsActivity.class);
                 startActivity(intent);
             }
