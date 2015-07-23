@@ -3,6 +3,8 @@ package co.infinum.academy.danijel_sokac.boatit.mvp.interactors.impl;
 import android.content.Context;
 
 import co.infinum.academy.danijel_sokac.boatit.BoatitApplication;
+import co.infinum.academy.danijel_sokac.boatit.Database.DBFlowBoatit;
+import co.infinum.academy.danijel_sokac.boatit.Database.DatabaseExecutor;
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.CommentList;
@@ -38,6 +40,9 @@ public class CommentsOnlineInteractor implements CommentsInteractor {
     private Callback<CommentList> commentsResponseCallback = new Callback<CommentList>() {
         @Override
         public void success(CommentList commentList, Response response) {
+            DatabaseExecutor dbExecutor = new DatabaseExecutor(context, new DBFlowBoatit(context));
+            boat.setComments(commentList.getComments());
+            dbExecutor.storeCommentsToDatabase(boat);
             listener.onCommentsReceived(commentList.getComments());
         }
 

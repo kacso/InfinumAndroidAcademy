@@ -27,6 +27,7 @@ import co.infinum.academy.danijel_sokac.boatit.Database.BoatDatabaseElement;
 import co.infinum.academy.danijel_sokac.boatit.Database.Boatit;
 import co.infinum.academy.danijel_sokac.boatit.Database.BoatitDatabase;
 import co.infinum.academy.danijel_sokac.boatit.Database.DBFlowBoatit;
+import co.infinum.academy.danijel_sokac.boatit.Database.DatabaseExecutor;
 import co.infinum.academy.danijel_sokac.boatit.Models.AllBoats;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
@@ -88,7 +89,10 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                         boatsList.setAdapter(boatsAdapter);
                         boatsList.setOnItemClickListener(BoatsActivity.this);
 
-                        storeToDatabase(allBoats, SessionSingleton.InstanceOfSessionSingleton().getToken());
+                        DatabaseExecutor dbExecutor = new DatabaseExecutor(BoatsActivity.this, db);
+                        dbExecutor
+                                .storeBoat(allBoats.getBoatList(),
+                                        SessionSingleton.InstanceOfSessionSingleton().getToken());
 
                     }
 
@@ -104,60 +108,7 @@ public class BoatsActivity extends Activity implements AdapterView.OnItemClickLi
                 });
     }
 
-//    private void storeToDatabase(AllBoats allBoats) {
-//        BoatDatabaseElement dbElement = new BoatDatabaseElement();
-//
-//        try {
-//            String dbBoats = ApiManager.GSON.toJson(allBoats);
-//
-//            dbElement.setToken(SessionSingleton.InstanceOfSessionSingleton().getToken());
-//            dbElement.setBoats(dbBoats);
-//            db.addBoat(dbElement);
-//        } catch (SQLiteConstraintException e) {
-//            e.printStackTrace();
-//            try {
-//                db.updateBoat(dbElement);
-//            } catch (Exception ex) {
-//                ex.printStackTrace();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
-    private void storeToDatabase(AllBoats allBoats, String token) {
-        db.deleteBoats();
-
-        for (Boat boat : allBoats.getBoatList()) {
-            try {
-                boat.setToken(token);
-                db.addBoat(boat);
-
-                storeCommentsToDatabase(boat);
-
-            } catch (SQLiteConstraintException ex) {
-                ex.printStackTrace();
-//                db.updateBoat(boat);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Errors while saving to db", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
-
-    private void storeCommentsToDatabase(Boat boat) {
-        for (Comment comment : boat.getComments()) {
-            comment.setBoatId(boat.getId());
-            try {
-                db.addComment(comment);
-            } catch (SQLiteConstraintException e) {
-                e.printStackTrace();
-//                db.updateComment(comment);
-            }
-        }
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
