@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import butterknife.ButterKnife;
@@ -77,8 +78,12 @@ public class DetailsActivity extends BaseActivity implements BoatDetailsView {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_details, menu);
-        return true;
+//        getMenuInflater().inflate(R.menu.menu_details, menu);
+//        return true;
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_details, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
