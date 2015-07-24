@@ -7,11 +7,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dialog_username"
+        android:inputType="textWebEmailAddress"
         android:hint="@string/username"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/dialog_password"
+        android:password="true"
         android:hint="@string/password"/>
 
     <LinearLayout
