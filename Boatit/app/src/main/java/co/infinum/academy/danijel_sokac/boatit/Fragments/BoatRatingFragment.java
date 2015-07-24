@@ -28,7 +28,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatRatingView;
 /**
  * Created by Danijel on 23.7.2015..
  */
-public class BoatRatingFragment extends Fragment implements BoatRatingView{
+public class BoatRatingFragment extends BaseFragment implements BoatRatingView{
     @Bind(R.id.upboat)
     Button upboat;
 
@@ -79,21 +79,6 @@ public class BoatRatingFragment extends Fragment implements BoatRatingView{
 
     @Override
     public void hideProgress() {
-
-    }
-
-    @Override
-    public void showError(@StringRes int error) {
-        Toast.makeText(getActivity(), getString(error), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onError(ErrorsEnum error) {
-        showError(error.getId());
-    }
-
-    @Override
-    public void onTokenExpired() {
 
     }
 }

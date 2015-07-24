@@ -9,6 +9,7 @@ import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErr
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.Comment;
 import co.infinum.academy.danijel_sokac.boatit.Models.NewComment;
+import co.infinum.academy.danijel_sokac.boatit.Network.BaseCallback;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.NewCommentActionsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.NewCommentActionsListener;
@@ -42,14 +43,19 @@ public class NewCommentActionsOnlineInteractor implements NewCommentActionsInter
                 newCommentCallback);
     }
 
-    Callback<Comment> newCommentCallback = new Callback<Comment>() {
+    Callback<Comment> newCommentCallback = new BaseCallback<Comment>() {
         @Override
         public void success(Comment comment, Response response) {
             listener.newCommentSent();
         }
 
         @Override
-        public void failure(RetrofitError error) {
+        public void onTokenExpired() {
+            listener.onTokenExpired();
+        }
+
+        @Override
+        public void error(RetrofitError error) {
             listener.onError(InternetConnectionErrorsEnum.COMMENT_POST_ERROR);
         }
     };

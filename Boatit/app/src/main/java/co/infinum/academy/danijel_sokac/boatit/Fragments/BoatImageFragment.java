@@ -27,7 +27,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.views.BoatImageView;
 /**
  * Created by Danijel on 23.7.2015..
  */
-public class BoatImageFragment extends Fragment implements BoatImageView {
+public class BoatImageFragment extends BaseFragment implements BoatImageView {
     @Bind(R.id.details_image)
     ImageView boatImage;
 
@@ -73,11 +73,6 @@ public class BoatImageFragment extends Fragment implements BoatImageView {
     }
 
     @Override
-    public void showError(@StringRes int error) {
-        Toast.makeText(getActivity(), getString(error), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onError(ErrorsEnum error) {
         showError(error.getId());
         if (error.getType() == ErrorTypeEnum.INTERNET_ERROR) {
@@ -89,8 +84,4 @@ public class BoatImageFragment extends Fragment implements BoatImageView {
         }
     }
 
-    @Override
-    public void onTokenExpired() {
-
-    }
 }

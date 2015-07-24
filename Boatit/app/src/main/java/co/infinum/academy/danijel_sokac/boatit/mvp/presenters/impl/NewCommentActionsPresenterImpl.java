@@ -47,5 +47,11 @@ public class NewCommentActionsPresenterImpl implements NewCommentActionsPresente
             view.hideProgress();
             view.onError(error);
         }
+
+        @Override
+        public void onTokenExpired() {
+            view.hideProgress();
+            view.onTokenExpired();
+        }
     };
 }

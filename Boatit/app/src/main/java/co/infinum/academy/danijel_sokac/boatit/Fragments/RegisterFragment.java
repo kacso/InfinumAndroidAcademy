@@ -1,9 +1,11 @@
 package co.infinum.academy.danijel_sokac.boatit.Fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import co.infinum.academy.danijel_sokac.boatit.Activities.BoatsActivity;
+import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
+import co.infinum.academy.danijel_sokac.boatit.Factories.MvpFactory;
 import co.infinum.academy.danijel_sokac.boatit.Models.LoginData;
 import co.infinum.academy.danijel_sokac.boatit.Models.LoginResponse;
 import co.infinum.academy.danijel_sokac.boatit.Models.RegisterData;
@@ -28,6 +32,8 @@ import co.infinum.academy.danijel_sokac.boatit.Models.User;
 import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.RegisterPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.RegisterView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -36,7 +42,7 @@ import retrofit.mime.TypedString;
 /**
  * Created by Danijel on 18.7.2015..
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends BaseFragment implements RegisterView {
     @Bind(R.id.register_email)
     EditText email;
 
@@ -55,6 +61,10 @@ public class RegisterFragment extends Fragment {
     @Bind(R.id.register)
     Button register;
 
+    private RegisterPresenter presenter;
+
+    private ProgressDialog progressDialog;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -70,40 +80,27 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
+        presenter = MvpFactory.getPresenter(getActivity(), this);
     }
 
     @OnClick(R.id.register)
     public void onRegisterClicked(View v) {
-        String pass = password.getText().toString();
-        String confirmPass = confirmPassword.getText().toString();
-        if (pass.equals(confirmPass)) {
-            User user = new User();
-            user.setLastName(lastName.getText().toString());
-            user.setEmail(email.getText().toString());
-            user.setFirstName(firstName.getText().toString());
-            user.setPassword(pass);
-            user.setPasswordConfirmation(confirmPass);
+        presenter.register(email.getText().toString(),
+                password.getText().toString(),
+                confirmPassword.getText().toString(),
+                firstName.getText().toString(),
+                lastName.getText().toString());
 
-            String registerData = new Gson().toJson(new RegisterData(user));
-
-            ApiManager.postSERVICE().register(new TypedString(registerData), new retrofit.Callback<LoginResponse>(){
-
-                @Override
-                public void success(LoginResponse loginResponse, Response response) {
-                    String token = loginResponse.getResponse().getToken();
-                    SessionSingleton.InstanceOfSessionSingleton().setToken(getActivity(), token);
-                    Intent intent = new Intent(getActivity(), BoatsActivity.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Toast.makeText(getActivity(), "Registration failure: " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
+    @Override
+    public void onRegisterSuccess() {
+        Intent intent = new Intent(getActivity(), BoatsActivity.class);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onRegisterFailed(ErrorsEnum error) {
+        onError(error);
+    }
 }

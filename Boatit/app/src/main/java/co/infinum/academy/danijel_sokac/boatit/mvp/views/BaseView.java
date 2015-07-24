@@ -17,4 +17,6 @@ public interface BaseView {
     public void onError(ErrorsEnum error);
 
     public void onTokenExpired();
+
+    public void tokenExpired();
 }

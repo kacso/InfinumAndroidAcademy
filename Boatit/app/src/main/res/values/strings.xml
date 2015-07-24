@@ -30,4 +30,8 @@
     <string name="title_activity_splash">SplashActivity</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="login_data_empty">Username and password are required</string>
+    <string name="login_failure">Login failed, check your credentials and try again</string>
+    <string name="register_passwords_not_matched">Passwords do not match</string>
+    <string name="register_failure">Registration failed, please check your credentials and try again</string>
 </resources>

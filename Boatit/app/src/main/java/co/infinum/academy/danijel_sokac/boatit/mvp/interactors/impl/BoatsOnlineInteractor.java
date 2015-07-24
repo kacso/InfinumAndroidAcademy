@@ -15,6 +15,7 @@ import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErr
 import co.infinum.academy.danijel_sokac.boatit.Models.AllBoats;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
+import co.infinum.academy.danijel_sokac.boatit.Network.BaseCallback;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.BoatsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.BoatsListener;
@@ -51,7 +52,7 @@ public class BoatsOnlineInteractor implements BoatsInteractor {
                         page, perPage, allBoatsCallback);
     }
 
-    Callback<AllBoats> allBoatsCallback = new Callback<AllBoats>() {
+    Callback<AllBoats> allBoatsCallback = new BaseCallback<AllBoats>() {
         @Override
         public void success(AllBoats allBoats, Response response) {
             boats = allBoats.getBoatList();
@@ -65,7 +66,12 @@ public class BoatsOnlineInteractor implements BoatsInteractor {
         }
 
         @Override
-        public void failure(RetrofitError error) {
+        public void onTokenExpired() {
+            listener.onTokenExpired();
+        }
+
+        @Override
+        public void error(RetrofitError error) {
             listener.getAllBoatsError(InternetConnectionErrorsEnum.BOAT_DOWNLOAD_ERROR);
         }
     };

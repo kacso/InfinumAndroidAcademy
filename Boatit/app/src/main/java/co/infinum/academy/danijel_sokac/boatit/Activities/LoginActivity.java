@@ -18,6 +18,8 @@ import org.json.JSONObject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import co.infinum.academy.danijel_sokac.boatit.Enum.errors.ErrorsEnum;
+import co.infinum.academy.danijel_sokac.boatit.Factories.MvpFactory;
 import co.infinum.academy.danijel_sokac.boatit.Fragments.RegisterFragment;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.LoginData;
@@ -25,13 +27,15 @@ import co.infinum.academy.danijel_sokac.boatit.Models.LoginResponse;
 import co.infinum.academy.danijel_sokac.boatit.Network.ApiManager;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
+import co.infinum.academy.danijel_sokac.boatit.mvp.presenters.LoginPresenter;
+import co.infinum.academy.danijel_sokac.boatit.mvp.views.LoginView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedString;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-public class LoginActivity extends FragmentActivity{
+public class LoginActivity extends BaseActivity implements LoginView {
     @Bind(R.id.username)
     EditText username;
 
@@ -44,63 +48,19 @@ public class LoginActivity extends FragmentActivity{
     @Bind(R.id.register_btn)
     Button registerBtn;
 
+    LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
-        return super.onOptionsItemSelected(item);
+        presenter = MvpFactory.getPresenter(this, this);
     }
 
     @OnClick(R.id.login_btn)
     public void login(View v) {
-        JSONObject loginData = new JSONObject();
-        try {
-            loginData.put("email", username.getText().toString());
-            loginData.put("password", password.getText().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-//        final TypedString loginData = new TypedString("{\"email\":\"" + username.getText().toString()
-//                + "\", \"password\": \"" + password.getText().toString() + "\"}");
-//        final TypedString loginData = new TypedString("{\n\"email\": \"admin@infinum.co\",\n\"password\": \"infinum1\"\n}");
-        ApiManager.postSERVICE().login(new TypedString(loginData.toString()), new retrofit.Callback<LoginResponse>() {
-            @Override
-            public void success(LoginResponse login, Response response) {
-//                Toast.makeText(LoginActivity.this, "" + response, Toast.LENGTH_SHORT).show();
-                String token = login.getResponse().getToken();
-                SessionSingleton.InstanceOfSessionSingleton().setToken(LoginActivity.this, token);
-                Intent intent = new Intent(LoginActivity.this, BoatsActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Toast.makeText(LoginActivity.this, "LoginData failure: " + error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        presenter.login(username.getText().toString(), password.getText().toString());
     }
 
     @OnClick(R.id.register_btn)
@@ -115,5 +75,17 @@ public class LoginActivity extends FragmentActivity{
 
         ft.addToBackStack(null);
         ft.commit();
+    }
+
+    @Override
+    public void onLoginSuccess() {
+        Intent intent = new Intent(this, BoatsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onLoginFailed(ErrorsEnum error) {
+        onError(error);
     }
 }

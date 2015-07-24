@@ -16,4 +16,6 @@ public interface BoatsListener {
     public void getAllBoatsError(ErrorsEnum error);
 
     public void boatClickedError(ErrorsEnum error);
+
+    public void onTokenExpired();
 }

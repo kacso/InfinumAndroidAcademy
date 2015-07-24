@@ -125,7 +125,15 @@ public class NewCommentDialog extends Dialog implements NewCommentActionsView {
 
     @Override
     public void onTokenExpired() {
+        MvpFactory.getTokenExpiredPresenter(context, this).tokenExpired();
+    }
 
+    @Override
+    public void tokenExpired() {
+        Dialog loginDialog = new LoginDialog(context);
+        loginDialog.setTitle(R.string.login_btn);
+        loginDialog.setContentView(R.layout.login_dialog);
+        loginDialog.show();
     }
 
 }

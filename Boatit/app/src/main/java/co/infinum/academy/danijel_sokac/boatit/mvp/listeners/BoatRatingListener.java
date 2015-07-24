@@ -10,4 +10,6 @@ public interface BoatRatingListener {
     public void onRateBoatFinished(Boat boat);
 
     public void onError(ErrorsEnum error);
+
+    public void onTokenExpired();
 }

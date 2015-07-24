@@ -8,6 +8,7 @@ import co.infinum.academy.danijel_sokac.boatit.Database.DatabaseExecutor;
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.CommentList;
+import co.infinum.academy.danijel_sokac.boatit.Network.BaseCallback;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.CommentsInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.CommentsListener;
@@ -37,7 +38,7 @@ public class CommentsOnlineInteractor implements CommentsInteractor {
                 1, 100, commentsResponseCallback);
     }
 
-    private Callback<CommentList> commentsResponseCallback = new Callback<CommentList>() {
+    private Callback<CommentList> commentsResponseCallback = new BaseCallback<CommentList>() {
         @Override
         public void success(CommentList commentList, Response response) {
             DatabaseExecutor dbExecutor = new DatabaseExecutor(context, new DBFlowBoatit(context));
@@ -47,7 +48,12 @@ public class CommentsOnlineInteractor implements CommentsInteractor {
         }
 
         @Override
-        public void failure(RetrofitError error) {
+        public void onTokenExpired() {
+            listener.onTokenExpired();
+        }
+
+        @Override
+        public void error(RetrofitError error) {
             listener.onError(InternetConnectionErrorsEnum.COMMENT_DOWNLOAD_ERROR);
         }
     };

@@ -6,6 +6,7 @@ import co.infinum.academy.danijel_sokac.boatit.BoatitApplication;
 import co.infinum.academy.danijel_sokac.boatit.Enum.errors.InternetConnectionErrorsEnum;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.Models.RateBoat;
+import co.infinum.academy.danijel_sokac.boatit.Network.BaseCallback;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
 import co.infinum.academy.danijel_sokac.boatit.mvp.interactors.BoatRatingInteractor;
 import co.infinum.academy.danijel_sokac.boatit.mvp.listeners.BoatRatingListener;
@@ -43,7 +44,7 @@ public class BoatRatingOnlineInteractor implements BoatRatingInteractor {
                 rateBoatCallback);
     }
 
-    private Callback<RateBoat> rateBoatCallback = new Callback<RateBoat>() {
+    private Callback<RateBoat> rateBoatCallback = new BaseCallback<RateBoat>() {
         @Override
         public void success(RateBoat rateBoat, Response response) {
             listener.onRateBoatFinished(rateBoat.getBoat());
@@ -51,7 +52,12 @@ public class BoatRatingOnlineInteractor implements BoatRatingInteractor {
         }
 
         @Override
-        public void failure(RetrofitError error) {
+        public void onTokenExpired() {
+            listener.onTokenExpired();
+        }
+
+        @Override
+        public void error(RetrofitError error) {
             listener.onError(InternetConnectionErrorsEnum.RATING_ERROR);
         }
     };

@@ -43,5 +43,11 @@ public class BoatRatingPresenterImpl implements BoatRatingPresenter {
             view.hideProgress();
             view.onError(error);
         }
+
+        @Override
+        public void onTokenExpired() {
+            view.hideProgress();
+            view.onTokenExpired();
+        }
     };
 }

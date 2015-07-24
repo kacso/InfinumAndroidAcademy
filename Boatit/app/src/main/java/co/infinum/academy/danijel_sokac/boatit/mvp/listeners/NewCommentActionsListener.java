@@ -11,4 +11,6 @@ public interface NewCommentActionsListener {
     public void newCommentCanceled();
 
     public void onError(ErrorsEnum error);
+
+    public void onTokenExpired();
 }

@@ -45,5 +45,11 @@ public class CommentsPresenterImpl implements CommentsPresenter {
             view.hideProgress();
             view.onError(error);
         }
+
+        @Override
+        public void onTokenExpired() {
+            view.hideProgress();
+            view.onTokenExpired();
+        }
     };
 }

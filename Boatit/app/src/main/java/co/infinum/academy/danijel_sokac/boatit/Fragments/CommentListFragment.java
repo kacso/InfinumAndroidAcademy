@@ -31,7 +31,7 @@ import co.infinum.academy.danijel_sokac.boatit.mvp.views.CommentsView;
 /**
  * Created by Danijel on 23.7.2015..
  */
-public class CommentListFragment extends Fragment  implements CommentsView, SwipeRefreshLayout.OnRefreshListener,
+public class CommentListFragment extends BaseFragment  implements CommentsView, SwipeRefreshLayout.OnRefreshListener,
         CommentListChangeListener {
     @Bind(R.id.comment_list_view)
     ListView commentList;
@@ -86,10 +86,6 @@ public class CommentListFragment extends Fragment  implements CommentsView, Swip
         commentSwipe.setRefreshing(false);
     }
 
-    @Override
-    public void showError(@StringRes int error) {
-        Toast.makeText(getActivity(), getString(error), Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onError(ErrorsEnum error) {
@@ -101,11 +97,6 @@ public class CommentListFragment extends Fragment  implements CommentsView, Swip
                     InternetConnectionStatus.DISCONNECTED);
             presenter.getComments();
         }
-    }
-
-    @Override
-    public void onTokenExpired() {
-
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface CommentsListener {
     public void onCommentsReceived(List<Comment> commentList);
 
     public void onError(ErrorsEnum error);
+
+    public void onTokenExpired();
 }
