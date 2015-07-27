@@ -18,7 +18,7 @@ import retrofit.converter.GsonConverter;
 /**
  * Created by Danijel on 13.7.2015..
  */
-public class ApiManager {
+public class ApiManager implements IApiManager {
     private static ApiManager instance;
     private ApiManager(){}
 
@@ -57,6 +57,6 @@ public class ApiManager {
         return SERVICE;
     }
 
-    public static BoatitService getSERVICE() { return SERVICE; }
+    public BoatitService getSERVICE() { return SERVICE; }
 
 }

@@ -5,6 +5,7 @@
     <item android:id="@+id/new_comment"
         android:enabled="true"
         android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/new_comment"
         android:icon="@mipmap/fab_ic_add"
         android:orderInCategory="1"></item>
