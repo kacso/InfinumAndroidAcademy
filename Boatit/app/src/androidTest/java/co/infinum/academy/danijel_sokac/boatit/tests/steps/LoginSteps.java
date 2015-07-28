@@ -54,21 +54,21 @@ public class LoginSteps {
     public void checkIfLogedIn() {
         //New activity is shown
 //        onView(withText(activity.getString(R.string.progress_wait))).check((matches(isDisplayed())));
-        try {
-            Thread.sleep(8000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(8000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         //Problematic part. Doesn't wait for progress dialog to dismiss
         onView(withText(activity.getString(R.string.title_activity_boats))).check(matches(isDisplayed()));
     }
 
     public void checkIfLoginFailed() {
-        try {
-            Thread.sleep(8000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(8000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         onView(withId(R.id.login_btn)).check(matches(isDisplayed()));
     }
 

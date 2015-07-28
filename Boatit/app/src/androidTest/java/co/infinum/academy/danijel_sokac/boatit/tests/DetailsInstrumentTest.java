@@ -53,6 +53,7 @@ public class DetailsInstrumentTest extends ActivityInstrumentationTestCase2<Logi
         loginSteps.checkIfLogedIn();
         boatsSteps.clickDetails(0);
         detailsSteps.checkIfInDetails();
-
+        detailsSteps.clickUpboat();
+        detailsSteps.checkIfRated();
     }
 }

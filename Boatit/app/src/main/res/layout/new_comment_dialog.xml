@@ -4,10 +4,12 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width ="match_parent"
+        android:layout_height ="100dp"
         android:id="@+id/new_comment_text"
-        android:hint="@string/new_comment_hint"/>
+        android:inputType="textCapSentences|textMultiLine"
+        android:hint="@string/new_comment_hint"
+        android:scrollHorizontally="false"/>
 
     <LinearLayout
         android:layout_width="match_parent"

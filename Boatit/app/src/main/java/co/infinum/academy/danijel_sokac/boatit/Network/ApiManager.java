@@ -1,5 +1,6 @@
 package co.infinum.academy.danijel_sokac.boatit.Network;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import co.infinum.academy.danijel_sokac.boatit.Activities.LoginActivity;
 import retrofit.RestAdapter;
+import retrofit.android.MainThreadExecutor;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
@@ -47,6 +49,8 @@ public class ApiManager implements IApiManager {
             new RestAdapter.Builder()
                 .setConverter(new GsonConverter(GSON))
                 .setEndpoint(ENDPOINT)
+                .setExecutors(AsyncTask.THREAD_POOL_EXECUTOR,
+                            new MainThreadExecutor())
                 .setClient(CLIENT)
                 .setLog(LOG)
                 .build();
