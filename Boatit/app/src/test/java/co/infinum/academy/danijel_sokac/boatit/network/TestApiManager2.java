@@ -17,24 +17,6 @@ import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
 
-
-
-import android.util.Log;
-import android.widget.TextView;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
-
-import java.io.IOException;
-import java.net.CookieManager;
-import java.util.concurrent.Executor;
-
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.GsonConverter;
-
 /**
  * Created by Danijel on 27.7.2015..
  */
