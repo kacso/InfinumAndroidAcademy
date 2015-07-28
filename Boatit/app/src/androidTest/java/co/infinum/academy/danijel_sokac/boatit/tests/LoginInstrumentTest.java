@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import co.infinum.academy.danijel_sokac.boatit.Activities.LoginActivity;
 import co.infinum.academy.danijel_sokac.boatit.R;
+import co.infinum.academy.danijel_sokac.boatit.tests.Constants.Constants;
 import co.infinum.academy.danijel_sokac.boatit.tests.steps.LoginSteps;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -26,8 +27,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  * Created by Danijel on 27.7.2015..
  */
 public class LoginInstrumentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
-    private static final String username = "admin@infinum.co";
-    private static final String password = "infinum1";
 
     private Activity activity;
 
@@ -48,9 +47,9 @@ public class LoginInstrumentTest extends ActivityInstrumentationTestCase2<LoginA
     }
 
     @Test
-    public void testSuccessfullLogin() {
+    public void testSuccessfulLogin() {
         LoginSteps loginSteps = new LoginSteps(activity);
-        loginSteps.login(username, password);
+        loginSteps.login(Constants.username, Constants.password);
         loginSteps.checkIfLogedIn();
     }
 
