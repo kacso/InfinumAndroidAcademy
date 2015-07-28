@@ -8,6 +8,11 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    packagingOptions{
+        exclude 'LICENSE.txt'
+    }
+
     defaultConfig {
         applicationId "co.infinum.academy.danijel_sokac.boatit"
         minSdkVersion 14

@@ -21,7 +21,10 @@ public class BoatitApplication extends Application {
         super.onCreate();
         instance = this;
         FlowManager.init(this);
+        init();
+    }
 
+    protected void init() {
         apiManager = ApiManager.getInstance();
     }
 
@@ -31,5 +34,9 @@ public class BoatitApplication extends Application {
 
     public static BoatitService getApiService() {
         return getInstance().apiManager.getSERVICE();
+    }
+
+    public IApiManager getApiManager() {
+        return apiManager;
     }
 }

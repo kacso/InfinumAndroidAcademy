@@ -14,20 +14,20 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLog;
 import org.robolectric.util.ActivityController;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import co.infinum.academy.danijel_sokac.boatit.Activities.DetailsActivity;
 import co.infinum.academy.danijel_sokac.boatit.Activities.LoginActivity;
-import co.infinum.academy.danijel_sokac.boatit.BoatitApplication;
 import co.infinum.academy.danijel_sokac.boatit.Models.Boat;
 import co.infinum.academy.danijel_sokac.boatit.R;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.BoatSingleton;
 import co.infinum.academy.danijel_sokac.boatit.Singletons.SessionSingleton;
-import co.infinum.academy.danijel_sokac.boatit.TestBoatit;
+import co.infinum.academy.danijel_sokac.boatit.TestBoatitApplication;
 import co.infinum.academy.danijel_sokac.boatit.network.TestApiManager;
+import co.infinum.academy.danijel_sokac.boatit.network.TestApiManager2;
 import co.infinum.academy.danijel_sokac.boatit.utils.ResourceUtils;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -38,7 +38,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by Danijel on 25.7.2015..
  */
-@Config(sdk = 21, application = TestBoatit.class)
+@Config(sdk = 21, application = TestBoatitApplication.class)
 @RunWith(RobolectricTestRunner.class)
 public class DetailsTest {
     private MockWebServer mockWebServer;
@@ -47,10 +47,11 @@ public class DetailsTest {
 
     @Before
     public void setUp() {
-        TestApiManager apiManager = TestApiManager.getInstance();
-        apiManager.setup();
+        TestApiManager2 apiManager = TestApiManager2.getInstance();
+//        apiManager.setup();
         mockWebServer = apiManager.getMockWebServer();
 
+        ShadowLog.stream = System.out;
     }
 
     @After
@@ -87,7 +88,6 @@ public class DetailsTest {
 
         try {
 //            assertThat(mockWebServer, nullValue());
-            mockWebServer.getUrl("/");
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getHeader("Content-Type"), equalTo("application/json"));
         } catch (InterruptedException e) {

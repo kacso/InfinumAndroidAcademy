@@ -6,9 +6,10 @@ import co.infinum.academy.danijel_sokac.boatit.network.TestApiManager2;
 /**
  * Created by Danijel on 25.7.2015..
  */
-public class TestBoatit extends BoatitApplication {
+public class TestBoatitApplication extends BoatitApplication {
 
-    public void init() {
+    @Override
+    protected void init() {
         TestApiManager2.getInstance().init();
         apiManager = TestApiManager2.getInstance();
     }
