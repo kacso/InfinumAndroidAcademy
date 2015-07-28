@@ -16,6 +16,7 @@ import co.infinum.academy.danijel_sokac.boatit.tests.Constants.Constants;
 import co.infinum.academy.danijel_sokac.boatit.tests.steps.BoatsSteps;
 import co.infinum.academy.danijel_sokac.boatit.tests.steps.DetailsSteps;
 import co.infinum.academy.danijel_sokac.boatit.tests.steps.LoginSteps;
+import co.infinum.academy.danijel_sokac.boatit.tests.steps.NewCommentSteps;
 
 /**
  * Created by Danijel on 27.7.2015..
@@ -27,6 +28,7 @@ public class DetailsInstrumentTest extends ActivityInstrumentationTestCase2<Logi
     LoginSteps loginSteps;
     BoatsSteps boatsSteps;
     DetailsSteps detailsSteps;
+    NewCommentSteps newCommentSteps;
 
     public DetailsInstrumentTest() {
         super(LoginActivity.class);
@@ -40,6 +42,14 @@ public class DetailsInstrumentTest extends ActivityInstrumentationTestCase2<Logi
         loginSteps = new LoginSteps(activity);
         boatsSteps = new BoatsSteps(activity);
         detailsSteps = new DetailsSteps(activity);
+        newCommentSteps = new NewCommentSteps(activity);
+
+
+
+        loginSteps.login(Constants.username, Constants.password);
+        loginSteps.checkIfLogedIn();
+        boatsSteps.clickDetails(0);
+        detailsSteps.checkIfInDetails();
     }
 
     @Override
@@ -49,11 +59,17 @@ public class DetailsInstrumentTest extends ActivityInstrumentationTestCase2<Logi
 
     @Test
     public void testUpboat() {
-        loginSteps.login(Constants.username, Constants.password);
-        loginSteps.checkIfLogedIn();
-        boatsSteps.clickDetails(0);
-        detailsSteps.checkIfInDetails();
         detailsSteps.clickUpboat();
         detailsSteps.checkIfRated();
+    }
+
+    @Test
+    public void testNewComment() {
+        final String comment = "This auto generated comment "
+                + System.currentTimeMillis();
+        detailsSteps.clickNewComment();
+        newCommentSteps.enterComment(comment);
+        newCommentSteps.clickSendComment();
+        newCommentSteps.checkNewCommentSent(comment);
     }
 }

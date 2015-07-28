@@ -1,9 +1,6 @@
 package co.infinum.academy.danijel_sokac.boatit.tests.steps;
 
 import android.app.Activity;
-import android.support.test.espresso.matcher.ViewMatchers;
-
-import co.infinum.academy.danijel_sokac.boatit.Activities.DetailsActivity;
 import co.infinum.academy.danijel_sokac.boatit.R;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -43,5 +40,7 @@ public class DetailsSteps {
                 .check(matches(isDisplayed()));
     }
 
-
+    public void clickNewComment() {
+        onView(withId(R.id.new_comment)).check(matches(isClickable())).perform(click());
+    }
 }
