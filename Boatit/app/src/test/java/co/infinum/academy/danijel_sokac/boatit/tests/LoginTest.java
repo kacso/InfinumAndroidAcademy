@@ -65,6 +65,7 @@ public class LoginTest {
     public void successfulLoginTest() {
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
+                .setHeader("Content-Type", "application/json; charset=UTF-8")
                 .setBody(ResourceUtils.readFromFile("login.json")));
 
         ActivityController<LoginActivity> loginActivityController =
@@ -88,6 +89,9 @@ public class LoginTest {
 //            assertThat(mockWebServer, nullValue());
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getHeader("Content-Type"), equalTo("application/json"));
+//            assertThat(ResourceUtils.convertStreamToString(request.getBody().inputStream())
+//                            .replaceAll("\\s+",""),
+//                    equalTo(ResourceUtils.readFromFile("login.json").replaceAll("\\s+","")));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -27,6 +27,7 @@ public class TestApiManager2 implements IApiManager {
 
     private Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+            .excludeFieldsWithoutExposeAnnotation()
             .create();
 
     private static final RestAdapter.Log LOG = new RestAdapter.Log() {

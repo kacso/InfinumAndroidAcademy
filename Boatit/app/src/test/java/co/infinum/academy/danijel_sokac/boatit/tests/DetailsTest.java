@@ -48,7 +48,6 @@ public class DetailsTest {
     @Before
     public void setUp() {
         TestApiManager2 apiManager = TestApiManager2.getInstance();
-//        apiManager.setup();
         mockWebServer = apiManager.getMockWebServer();
 
         SessionSingleton.InstanceOfSessionSingleton().setToken(TestBoatitApplication.getInstance(), token);
@@ -75,40 +74,6 @@ public class DetailsTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Test
-    public void successfulLoginTest() {
-        mockWebServer.enqueue(new MockResponse()
-                .setResponseCode(200)
-                .setBody(ResourceUtils.readFromFile("login.json")));
-
-        ActivityController<LoginActivity> loginActivityController =
-                Robolectric.buildActivity(LoginActivity.class);
-
-        LoginActivity loginActivity = loginActivityController.create()
-                .start()
-                .resume()
-                .visible()
-                .get();
-
-        EditText usernameEditText = (EditText) loginActivity.findViewById(R.id.username);
-        EditText passEditText = (EditText) loginActivity.findViewById(R.id.password);
-        Button loginButton = (Button) loginActivity.findViewById(R.id.login_btn);
-
-        usernameEditText.setText("admin@infinum.co");
-        passEditText.setText("infinum1");
-        loginButton.performClick();
-
-        try {
-//            assertThat(mockWebServer, nullValue());
-            RecordedRequest request = mockWebServer.takeRequest();
-            assertThat(request.getHeader("Content-Type"), equalTo("application/json"));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     @Test
@@ -144,6 +109,9 @@ public class DetailsTest {
         try {
             RecordedRequest recordedRequest = mockWebServer.takeRequest();
             assertThat(recordedRequest.getHeader("Content-Type"), equalTo("application/json; charset=UTF-8"));
+//            assertThat(ResourceUtils.convertStreamToString(recordedRequest.getBody().inputStream())
+//                          .replaceAll("\\s+",""),
+//                    equalTo(ResourceUtils.readFromFile("upboat.json"))).replaceAll("\\s+","");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
