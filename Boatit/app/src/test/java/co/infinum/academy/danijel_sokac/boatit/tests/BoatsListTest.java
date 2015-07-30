@@ -79,7 +79,10 @@ public class BoatsListTest {
 
         try {
             RecordedRequest recordedRequest = mockWebServer.takeRequest();
-            assertThat(recordedRequest.getHeader("Content-Type"), equalTo("application/json; charset=UTF-8"));
+
+            assertThat(recordedRequest.getMethod(), equalTo("GET"));
+
+            assertThat(recordedRequest.getPath(), equalTo("/api/v1/posts?token=" + token + "&page=1&per_page=100"));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

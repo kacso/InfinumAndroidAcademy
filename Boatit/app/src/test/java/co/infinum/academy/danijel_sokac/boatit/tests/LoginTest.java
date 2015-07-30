@@ -89,6 +89,7 @@ public class LoginTest {
 //            assertThat(mockWebServer, nullValue());
             RecordedRequest request = mockWebServer.takeRequest();
             assertThat(request.getHeader("Content-Type"), equalTo("application/json"));
+
 //            assertThat(ResourceUtils.convertStreamToString(request.getBody().inputStream())
 //                            .replaceAll("\\s+",""),
 //                    equalTo(ResourceUtils.readFromFile("login.json").replaceAll("\\s+","")));

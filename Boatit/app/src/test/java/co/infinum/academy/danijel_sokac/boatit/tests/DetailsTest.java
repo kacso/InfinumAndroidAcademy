@@ -108,10 +108,18 @@ public class DetailsTest {
 
         try {
             RecordedRequest recordedRequest = mockWebServer.takeRequest();
-            assertThat(recordedRequest.getHeader("Content-Type"), equalTo("application/json; charset=UTF-8"));
-//            assertThat(ResourceUtils.convertStreamToString(recordedRequest.getBody().inputStream())
-//                          .replaceAll("\\s+",""),
-//                    equalTo(ResourceUtils.readFromFile("upboat.json"))).replaceAll("\\s+","");
+
+            assertThat(recordedRequest.getMethod(), equalTo("GET"));
+
+            assertThat(recordedRequest.getPath(), equalTo("/api/v1/posts/1/comments?token="
+                    + token + "&page=1&per_page=100"));
+
+
+            recordedRequest = mockWebServer.takeRequest();
+
+            assertThat(recordedRequest.getMethod(), equalTo("GET"));
+
+            assertThat(recordedRequest.getPath(), equalTo("/api/v1/posts/1/upboat?token=" + token));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
