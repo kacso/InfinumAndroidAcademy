@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Blocnote</string>
+
+    <string name="action_settings">Instellingen</string>
+    <string name="no_files">Je hoeft niet alle documenten hebt, maak dan een aantal</string>
+    <string name="title_activity_editor">Document bewerken</string>
+    <string name="save">sparen</string>
+    <string name="title_hint">Document titel</string>
+    <string name="content_hint">Inhoud plaatst hier</string>
+    <string name="title_activity_settings">Instellingen</string>
+
+    <string name="language_prompt">Kies een land</string>
+    <string name="color_prompt">Kies een tekstkleur</string>
+    <string name="settings_color">Kleur</string>
+    <string name="settings_language">Taal</string>
+
+    <string name="black">Zwart</string>
+    <string name="red">Rood</string>
+    <string name="blue">Blauw</string>
+    <string name="green">Groen</string>
+</resources>
