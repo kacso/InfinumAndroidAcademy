@@ -1,0 +1,47 @@
+{
+  "response": [
+    {
+      "id": 2,
+      "title": "Post second",
+      "image_url": "image_url2",
+      "created_at": "2015-06-23T16:58:23.279Z",
+      "score": 0,
+      "creator": {
+        "first_name": "Admin",
+        "last_name": "Infinum"
+      },
+      "comments": []
+    },
+    {
+      "id": 1,
+      "title": "Post first",
+      "image_url": "image_url",
+      "created_at": "2015-06-23T16:58:23.270Z",
+      "score": 1,
+      "creator": {
+        "first_name": "Admin",
+        "last_name": "Infinum"
+      },
+      "comments": [
+        {
+          "id": 1,
+          "content": "Komentar",
+          "created_at": "2015-06-23T16:58:59.154Z",
+          "author": {
+            "first_name": "Admin",
+            "last_name": "Infinum"
+          }
+        }
+      ]
+    }
+  ],
+  "count": 2,
+  "pagination": {
+    "current": 1,
+    "previous": null,
+    "next": null,
+    "per_page": 100,
+    "pages": 1,
+    "count": 2
+  }
+}

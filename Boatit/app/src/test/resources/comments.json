@@ -1,0 +1,23 @@
+{
+  "response": [
+    {
+      "id": 1,
+      "content": "Komentar",
+      "created_at": "2015-06-23T16:58:59.154Z",
+      "author": {
+        "first_name": "Admin",
+        "last_name": "Infinum"
+      }
+    },
+    {
+      "id": 2,
+      "content": "Komentar",
+      "created_at": "2015-06-23T17:21:07.755Z",
+      "author": {
+        "first_name": "Admin",
+        "last_name": "Infinum"
+      }
+    }
+  ],
+  "count": 2
+}

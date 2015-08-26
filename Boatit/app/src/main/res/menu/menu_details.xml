@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="co.infinum.academy.danijel_sokac.boatit.Activities.DetailsActivity">
+    <item android:id="@+id/new_comment"
+        android:enabled="true"
+        android:showAsAction="always"
+        app:showAsAction="always"
+        android:title="@string/new_comment"
+        android:icon="@mipmap/fab_ic_add"
+        android:orderInCategory="1"></item>
+</menu>
