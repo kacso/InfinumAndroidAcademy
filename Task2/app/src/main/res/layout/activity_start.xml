@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".StartActivity"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/startURL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/start_url_hint"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/openWebViewBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OPEN WEBVIEW"
+            android:layout_alignParentLeft="true"
+            android:onClick="onOpenWebviewClick"/>
+        <Button
+            android:id="@+id/openBrowserBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="OPEN BROWSER"
+            android:onClick="onOpenBrowserClick"/>
+    </RelativeLayout>
+
+</LinearLayout>

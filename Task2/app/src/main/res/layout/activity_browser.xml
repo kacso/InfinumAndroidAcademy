@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="co.infinum.academy.danijel_sokac.task2.BrowserActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/stateBar">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/arrow_refresh"
+                android:id="@+id/refresh"
+                android:visibility="gone"
+                android:onClick="onRefreshClicked" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/dialog_close"
+                android:id="@+id/abort"
+                android:visibility="gone"
+                android:onClick="onAbortClicked"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/stateBar">
+            <EditText
+                android:id="@+id/pageUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_url_hint"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/goButton"
+                android:singleLine="true"
+                android:imeOptions="actionGo"
+                android:selectAllOnFocus="true"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GO"
+                android:id="@+id/goButton"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="-10dp"
+                android:onClick="onGoClicked"
+                />
+        </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/loading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/stateBar"
+            />
+    </RelativeLayout>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/browserWindow">
+    </WebView>
+
+</LinearLayout>
